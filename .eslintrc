@@ -1,0 +1,16 @@
+{
+  "extends": "eslint-config-egg",
+  "rules": {
+    "array-bracket-spacing": [
+      "error",
+      "never"
+    ],
+    "linebreak-style": [
+      0,
+      "error",
+      "windows"
+    ],
+    "no-eval": 0,
+    "indent": "off"
+  }
+}
