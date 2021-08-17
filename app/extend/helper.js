@@ -41,8 +41,7 @@ module.exports = {
     // 设置登录token
     async loginToken(data, expires) {
         const { config } = this.app;
-        const timestamp = Math.floor(new Date().getTime() / 1000);
-        // data.exp = timestamp + expires;
+        const timestamp = new Date().getTime() / 1000;
         const token = jwt.sign(data, config.jwt.secret, {
             expiresIn: expires,
         });

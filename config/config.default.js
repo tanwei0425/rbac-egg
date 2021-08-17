@@ -55,7 +55,7 @@ module.exports = appInfo => {
     ignore: ['/admin/v1/auth/signIn', '/admin/v1/captcha'],
   };
   config.redisConfig = {
-    expireTime: 10, // jwt、redis过期时间(s)
+    expireTime: 7200, // jwt、redis过期时间(s)
     updateExpireTime: 1800, // jwt、redis如果用户一直在操作，距离给redis的key续费的时间(s) //30分钟
   };
   // add your user config here
