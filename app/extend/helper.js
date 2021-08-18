@@ -41,18 +41,13 @@ module.exports = {
     // 设置登录token
     async loginToken(data, expires) {
         const { config } = this.app;
-        const timestamp = new Date().getTime() / 1000;
         const token = jwt.sign(data, config.jwt.secret, {
             expiresIn: expires,
         });
-        const twAuth = await this.getRedis('tw_auth');
-
-        twAuth[data.id] && delete twAuth[data.id];
-        twAuth[data.id] = {
+        const RedisKey = data.id + data.username;
+        await this.setRedis(RedisKey, {
             token,
-            timestamp: timestamp + expires,
-        };
-        await this.setRedis('tw_auth', twAuth);
+        }, expires);
         return token;
     },
 

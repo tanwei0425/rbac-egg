@@ -62,7 +62,7 @@ class ElementService extends Service {
         const element = `${prefix}element`;
         const menu = `${prefix}menu`;
         const columns = `${element}.id, ${element}.name, ${element}.code, ${element}.menu_id, ${menu}.name as menu_name, ${element}.status, ${element}.created_at`;
-        // 内连接查询
+        // 左连接查询
         let listSql = `select ${columns} from ${element} left join ${menu} on ${element}.menu_id = ${menu}.id where ${element}.is_delete=0 `;
         let countSql = `select count(*) as count from ${element} where is_delete=0 `;
         name && (whereSql += `and ${element}.name like ${escape(`%${name}%`)} `);

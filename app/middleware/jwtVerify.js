@@ -16,33 +16,43 @@ module.exports = () => {
         const { request, app, helper } = ctx;
         const { redisConfig } = ctx.app.config;
         const authorization = request.header.token + '';
-        if (authorization !== 'null' && authorization) {
+        console.log(authorization, 'authorization');
+        if (authorization) {
             const token = authorization.substring(7);
-            const twAuth = await helper.getRedis('tw_auth');
-            const userInfo = await verifyToken(token, app.config.jwt.secret, redisConfig, ctx);
+            const userInfo = await verifyToken(token, app.config.jwt.secret);
             // token过期 TokenExpiredError，无效的token JsonWebTokenError
             if (userInfo.name === 'TokenExpiredError' || userInfo.name === 'JsonWebTokenError') {
                 helper.render(userInfo.name === 'TokenExpiredError' ? 904 : 901);
-                // 因为jwt过期后无法拿到用户id，没有办法清除redis中的多余用户id
-                // 根据redis token后面存储的过期时间，如果过期了，去除redis中多余的过期或者异常用户
-                const timestamp = new Date().getTime() / 1000;
-                for (const key in twAuth) {
-                    const val = twAuth[key];
-                    if (val.timestamp < timestamp) {
-                        twAuth[key] && delete twAuth[key];
-                        await helper.setRedis('tw_auth', twAuth);
-                    }
-                }
                 return;
             }
+            // 获取redis用户信息
+            const RedisKey = userInfo.id + userInfo.username;
+            const redisInfo = await helper.getRedis(RedisKey);
             // 账号在其他地方登录
-            if (twAuth[userInfo.id].token !== token) {
+            if (redisInfo.token !== token) {
                 helper.render(903);
                 return;
             }
+
+            // 过期时间还剩xxx秒的时候，如果用户在操作，自动增加过期时间并更换token
+            const timestamp = new Date().getTime() / 1000;
+            // 去除redis中因
+            if (timestamp + redisConfig.updateExpireTime > userInfo.exp) {
+                const newToken = jwt.sign({
+                    id: userInfo.id,
+                    username: userInfo.username,
+                }, app.config.jwt.secret, {
+                    expiresIn: redisConfig.expireTime,
+                });
+                await helper.delRedis(RedisKey);
+                await helper.setRedis(RedisKey, {
+                    token: newToken,
+                }, redisConfig.expireTime);
+                ctx.set('token', newToken);
+            }
             ctx.locals.auth = {
                 id: userInfo.id,
-                name: userInfo.name,
+                username: userInfo.username,
             };
             await next();
         } else {
@@ -50,7 +60,7 @@ module.exports = () => {
         }
     };
 
-    async function verifyToken(token, secret, redisConfig, ctx) {
+    async function verifyToken(token, secret) {
         try {
             const userInfo = jwt.verify(token, secret, (err, decoded) => {
                 console.log(err, decoded, 'err,data');
@@ -63,26 +73,6 @@ module.exports = () => {
                 }
                 return decoded;
             });
-            // 过期时间还剩xxx秒的时候，如果用户在操作，自动增加过期时间并更换token
-            const timestamp = new Date().getTime() / 1000;
-            // 去除redis中因
-            if (timestamp + redisConfig.updateExpireTime > userInfo.exp) {
-                const data = {
-                    id: userInfo.id,
-                    name: userInfo.name,
-                };
-                const newToken = jwt.sign(data, secret, {
-                    expiresIn: redisConfig.expireTime,
-                });
-                const twAuth = await ctx.helper.getRedis('tw_auth');
-                twAuth[userInfo.id] = {
-                    token: newToken,
-                    timestamp: timestamp + redisConfig.expireTime,
-                };
-                await ctx.helper.setRedis('tw_auth', twAuth);
-                ctx.set('token', newToken);
-                return data;
-            }
             return userInfo;
         } catch (e) {
             // console.error(e);

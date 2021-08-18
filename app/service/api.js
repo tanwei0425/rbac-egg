@@ -62,7 +62,7 @@ class ApiService extends Service {
         const api = `${prefix}api`;
         const menu = `${prefix}menu`;
         const columns = `${api}.id, ${api}.name, ${api}.path,  ${api}.method, ${api}.menu_id, ${menu}.name as menu_name, ${api}.status, ${api}.created_at`;
-        // 内连接查询
+        // 左连接查询
         let listSql = `select ${columns} from ${api} left join ${menu} on ${api}.menu_id = ${menu}.id where ${api}.is_delete=0 `;
         let countSql = `select count(*) as count from ${api} where is_delete=0 `;
         name && (whereSql += `and ${api}.name like ${escape(`%${name}%`)} `);

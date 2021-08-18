@@ -14,11 +14,11 @@ class CommonService extends Service {
     async loginOut() {
         const { ctx: { helper, locals } } = this;
         // 清除redis
-        const auth = locals.auth;
-        const twAuth = await helper.getRedis('tw_auth');
-        twAuth[auth.id] && delete twAuth[auth.id];
-        await helper.setRedis('tw_auth', twAuth);
-        return true;
+        const userInfo = locals.auth;
+        console.log(userInfo, 'userInfo');
+        const result = await helper.delRedis(userInfo.id + userInfo.username);
+        console.log(result, 'result');
+        return result;
     }
 }
 module.exports = CommonService;

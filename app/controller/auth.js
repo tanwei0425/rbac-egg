@@ -38,7 +38,7 @@ class AuthController extends Controller {
       return;
     }
 
-    const token = await helper.loginToken({ id: userInfo.id, name: userInfo.name }, app.config.redisConfig.expireTime);
+    const token = await helper.loginToken({ id: userInfo.id, username: userInfo.username }, app.config.redisConfig.expireTime);
     ctx.set('token', token);
     helper.render(200);
   }
