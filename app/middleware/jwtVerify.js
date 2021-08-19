@@ -16,7 +16,6 @@ module.exports = () => {
         const { request, app, helper } = ctx;
         const { redisConfig } = ctx.app.config;
         const authorization = request.header.token + '';
-        console.log(authorization, 'authorization');
         if (authorization) {
             const token = authorization.substring(7);
             const userInfo = await verifyToken(token, app.config.jwt.secret);
@@ -63,7 +62,6 @@ module.exports = () => {
     async function verifyToken(token, secret) {
         try {
             const userInfo = jwt.verify(token, secret, (err, decoded) => {
-                console.log(err, decoded, 'err,data');
                 if (err) {
                     // 'TokenExpiredError' //token过期
                     // 'JsonWebTokenError' //无效的token

@@ -161,6 +161,11 @@ module.exports = {
         redis.flushall();
         return;
     },
+    // 查看key的过期时间
+    async ttlRedis(key) {
+        const { redis } = this.app;
+        return redis.ttl(key) || 0;
+    },
     // 对比加密数据
     equal(rsa, data) {
         const sha = privateKey.decrypt(rsa, 'utf8');

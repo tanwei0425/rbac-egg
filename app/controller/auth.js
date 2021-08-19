@@ -38,6 +38,7 @@ class AuthController extends Controller {
       return;
     }
 
+    // 设置token
     const token = await helper.loginToken({ id: userInfo.id, username: userInfo.username }, app.config.redisConfig.expireTime);
     ctx.set('token', token);
     helper.render(200);
@@ -58,7 +59,6 @@ class AuthController extends Controller {
       ctx.helper.render(912);
       return;
     }
-
     const res = {
       id: userInfo.id,
       username: userInfo.username,
@@ -99,68 +99,37 @@ class AuthController extends Controller {
     }
 
     // 查询按钮权限(超管获取所有按钮权限)
-    if (userInfo.is_super === 1) {
-      const columns = ['code'];
-      const where = {
-        status: '1',
-        is_delete: 0,
-      };
-      const elementsRes = await ctx.service.element.index(columns, where);
-      const elements = elementsRes.map(val => val.code);
-      res.elements = elements;
-    } else {
-      // 查询角色
-      const userRoleRes = await ctx.service.userRole.index({
-        user_id: userInfo.id,
-      }, ['role_id']);
-      if (!userRoleRes || userRoleRes.length < 1) {
-        ctx.helper.render(200, []);
-        return;
-      }
-      const roleIdArr = userRoleRes.map(val => val.role_id);
-
-      // 去除当前角色已禁用或者删除的角色
-      const roleRes = await ctx.service.role.index({
-        status: '1',
-        is_delete: 0,
-        id: [...roleIdArr],
-      }, ['id']);
-      if (!roleRes || roleRes.length < 1) {
-        ctx.helper.render(200, []);
-        return;
-      }
-      const activeRoleIdArr = roleRes.map(val => val.id);
-
-      // 查询当前在用角色下的元素权限
-      const rolePermissionRes = await ctx.service.rolePermission.index({
-        role_id: activeRoleIdArr,
-      }, ['permission_id']);
-      if (!rolePermissionRes || rolePermissionRes.length < 1) {
-        ctx.helper.render(200, []);
-        return;
-      }
-      const allPermission = rolePermissionRes.map(val => val.permission_id);
-      const permissionElementRes = await ctx.service.permission.index({
-        id: allPermission,
-        type: 'element',
-      });
-      if (!permissionElementRes || permissionElementRes.length < 1) {
-        ctx.helper.render(200, []);
-        return;
-      }
-
-      const activePermissionElement = permissionElementRes.map(val => val.id);
-      const columns = ['code'];
-      const where = {
-        status: '1',
-        is_delete: 0,
-        permission_id: activePermissionElement,
-      };
-      const elementsRes = await ctx.service.element.index(columns, where);
-      const elements = elementsRes.map(val => val.code);
-      res.elements = elements;
+    const elementColumns = ['code'];
+    const elementWhere = {
+      status: '1',
+      is_delete: 0,
+    };
+    if (userInfo.is_super !== 1) {
+      const activePermission = await ctx.service.common.userIdSelectAllPermission(userInfo.id, 'element');
+      elementWhere.permission_id = activePermission;
     }
-    // 查询按钮权限
+    const elementsRes = await ctx.service.element.index(elementColumns, elementWhere);
+    const elements = elementsRes.map(val => val.code);
+    res.elements = elements;
+
+
+    // 获取接口权限(超管获取所有接口权限)
+    const apiColumns = ['path', 'method'];
+    const apiWhere = {
+      status: '1',
+      is_delete: 0,
+    };
+    if (userInfo.is_super !== 1) {
+      const activePermission = await ctx.service.common.userIdSelectAllPermission(userInfo.id, 'api');
+      apiWhere.permission_id = activePermission;
+    }
+    const apisRes = await ctx.service.api.index(apiColumns, apiWhere);
+    const RedisKey = userInfo.id + userInfo.username;
+    const redisInfo = await ctx.helper.getRedis(RedisKey);
+    redisInfo.apis = apisRes;
+    const ttlKeyTime = await ctx.helper.ttlRedis(RedisKey);
+    await ctx.helper.setRedis(RedisKey, redisInfo, ttlKeyTime);
+
     ctx.helper.render(200, res);
   }
 
@@ -182,47 +151,8 @@ class AuthController extends Controller {
       const res = await ctx.service.menu.index(columns, where);
       ctx.helper.render(200, res);
     } else {
-      // 查询角色
-      const userRoleRes = await ctx.service.userRole.index({
-        user_id: userInfo.id,
-      }, ['role_id']);
-      if (!userRoleRes || userRoleRes.length < 1) {
-        ctx.helper.render(200, []);
-        return;
-      }
-      const roleIdArr = userRoleRes.map(val => val.role_id);
-
-      // 去除当前角色已禁用或者删除的角色
-      const roleRes = await ctx.service.role.index({
-        status: '1',
-        is_delete: 0,
-        id: [...roleIdArr],
-      }, ['id']);
-      if (!roleRes || roleRes.length < 1) {
-        ctx.helper.render(200, []);
-        return;
-      }
-      const activeRoleIdArr = roleRes.map(val => val.id);
-
-      // 查询当前在用角色下的菜单权限
-      const rolePermissionRes = await ctx.service.rolePermission.index({
-        role_id: activeRoleIdArr,
-      }, ['permission_id']);
-      if (!rolePermissionRes || rolePermissionRes.length < 1) {
-        ctx.helper.render(200, []);
-        return;
-      }
-      const allPermission = rolePermissionRes.map(val => val.permission_id);
-      const permissionMenuRes = await ctx.service.permission.index({
-        id: allPermission,
-        type: 'menu',
-      });
-      if (!permissionMenuRes || permissionMenuRes.length < 1) {
-        ctx.helper.render(200, []);
-        return;
-      }
-
-      const activePermissionMenu = permissionMenuRes.map(val => val.id);
+      //  通过id查询所属角色下某一类型的权限集合（在用）
+      const activePermission = await ctx.service.common.userIdSelectAllPermission(userInfo.id, 'menu');
       // 获取当前角色下的菜单
       const columns = ['id', 'pid', 'name', 'path', 'cmp_path', 'icon', 'is_router', 'is_show', 'sort'];
       const where = {
@@ -231,7 +161,7 @@ class AuthController extends Controller {
       };
       const res = await ctx.service.menu.index(columns, {
         ...where,
-        permission_id: activePermissionMenu,
+        permission_id: activePermission,
       });
 
       // 获取全部在用菜单
