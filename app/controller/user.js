@@ -85,9 +85,7 @@ class UserController extends Controller {
             helper.render(401, {}, '你要搞事情啊？');
             return;
         }
-        console.log(1111);
         const res = await service.user.update(row, options);
-        console.log(res, 'res');
         if (res) {
             await service.common.userStatusUpdateSyncRedis(params.id + userInfo.username);
         }

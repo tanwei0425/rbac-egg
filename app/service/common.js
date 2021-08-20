@@ -79,9 +79,7 @@ class CommonService extends Service {
     async userStatusUpdateSyncRedis(key) {
         const { ctx: { helper } } = this;
         // 清除redis
-        console.log(key, 'key');
         const res = await helper.getRedis(key);
-        console.log(res, 'res');
         if (res.token) {
             await helper.delRedis(key);
         }
