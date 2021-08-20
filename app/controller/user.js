@@ -45,6 +45,10 @@ class UserController extends Controller {
             helper.render(401, {}, '用户名称已存在');
             return;
         }
+        if (body.is_super) {
+            helper.render(401, {}, '你要搞事情啊？');
+            return;
+        }
         const res = await service.user.create(body);
         helper.render(res ? 200 : 501, {});
     }
@@ -52,11 +56,14 @@ class UserController extends Controller {
         const { ctx: { service, helper, params, request } } = this;
         const body = request.body;
         // 不能修改用户名
-        body.username && delete body.username;
+        const { username, ...rest } = body;
         const options = {
             where: { id: params.id },
         };
-        const res = await service.user.update(body, options);
+        const res = await service.user.update(rest, options);
+        if (res && rest.status === '0') {
+            await service.common.userStatusUpdateSyncRedis(params.id + username);
+        }
         helper.render(res ? 200 : 501, {});
     }
     async destroy() {
@@ -67,7 +74,23 @@ class UserController extends Controller {
         const options = {
             where: { id: params.id },
         };
+        const userInfo = await service.user.show({ id: params.id, is_delete: 0 });
+        // 校验用户信息
+        if (!userInfo) {
+            helper.render(910);
+            return;
+        }
+        // 超管不能删除
+        if (userInfo.is_super === 1) {
+            helper.render(401, {}, '你要搞事情啊？');
+            return;
+        }
+        console.log(1111);
         const res = await service.user.update(row, options);
+        console.log(res, 'res');
+        if (res) {
+            await service.common.userStatusUpdateSyncRedis(params.id + userInfo.username);
+        }
         helper.render(res ? 200 : 501, {});
     }
     async reloadPwd() {

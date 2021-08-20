@@ -73,5 +73,18 @@ class CommonService extends Service {
         const activePermission = permissionRes.map(val => val.id);
         return activePermission;
     }
+
+
+    // 正在登录的用户被禁用或者删除后，强制踢出
+    async userStatusUpdateSyncRedis(key) {
+        const { ctx: { helper } } = this;
+        // 清除redis
+        console.log(key, 'key');
+        const res = await helper.getRedis(key);
+        console.log(res, 'res');
+        if (res.token) {
+            await helper.delRedis(key);
+        }
+    }
 }
 module.exports = CommonService;

@@ -84,7 +84,7 @@ class UserService extends Service {
         const { app: { mysql, config }, ctx } = this;
         const prefix = config.mysqlConfig.prefix;
         rest.updated_at = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        const userRoleData = roles.map(val => ({
+        const userRoleData = roles && roles.map(val => ({
             user_id: options.where.id,
             role_id: val,
             created_at: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
@@ -93,12 +93,15 @@ class UserService extends Service {
         const res = await mysql.beginTransactionScope(async conn => {
             // 添加基本信息
             await conn.update(`${prefix}user`, rest, options);
-            // 删除角色关联关系
-            await conn.delete(`${prefix}user_role`, {
-                user_id: options.where.id,
-            });
-            // 重新添加角色关联关系
-            await conn.insert(`${prefix}user_role`, userRoleData);
+            // 删除的时候不修改roles
+            if (roles) {
+                // 删除角色关联关系
+                await conn.delete(`${prefix}user_role`, {
+                    user_id: options.where.id,
+                });
+                // 重新添加角色关联关系
+                await conn.insert(`${prefix}user_role`, userRoleData);
+            }
             return true;
         }, ctx);
         return res;

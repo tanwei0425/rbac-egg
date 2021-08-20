@@ -28,8 +28,13 @@ class AuthController extends Controller {
       return;
     }
     const userInfo = await service.user.show({ username: rest.username, is_delete: 0 });
+    console.log(userInfo, 'userInfo');
     if (!userInfo) {
       helper.render(910);
+      return;
+    }
+    if (userInfo.status === '0') {
+      helper.render(914);
       return;
     }
     const pwdCrypto = helper.addSaltPassword(rest.password);
