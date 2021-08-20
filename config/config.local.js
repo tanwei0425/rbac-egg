@@ -51,6 +51,17 @@ module.exports = {
             db: 0,
         },
     },
+    // 验证码配置
+    svgCaptchaConfig: {
+        width: 90,
+        height: 30,
+        fontSize: 42,
+        noise: 1,
+        color: true,
+        mathMin: 1,
+        mathMax: 1,
+        mathOperator: '+',
+    },
     // 覆盖config.default.js 中间件，开发环境中不处理数据加密
     middleware: ['paramDataFormat', 'jwtVerify', 'authCheckApi'],
 };

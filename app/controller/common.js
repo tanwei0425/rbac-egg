@@ -56,15 +56,19 @@ class CommonController extends Controller {
     }
     // 验证码
     async captcha() {
-        const { ctx: { helper, query } } = this;
+        const { ctx: { helper, query, app } } = this;
         const prevUuid = query.uuid;
-        const captcha = svgCaptcha.createMathExpr({
-            width: 90,
-            height: 30,
-            noise: 6,
-            fontSize: 42,
-            color: true,
-        });
+        // create 默认(传统的图形验证码)
+        // const captcha = svgCaptcha.create({
+        //     width: 90,
+        //     height: 30,
+        //     noise: 4,
+        //     fontSize: 42,
+        //     color: true,
+        // });
+        // createMathExpr 算术验证码
+        const captcha = svgCaptcha.createMathExpr(app.config.svgCaptchaConfig);
+
         const uuid = uuidv4();
         const timestamp = new Date().getTime();
         const twCaptcha = await helper.getRedis('tw_captcha');

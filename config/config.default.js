@@ -58,10 +58,23 @@ module.exports = appInfo => {
     expireTime: 7200, // jwt、redis过期时间(s)
     updateExpireTime: 1800, // jwt、redis如果用户一直在操作，距离给redis的key续费的时间(s) //30分钟
   };
+
+  // 验证码配置
+  config.svgCaptchaConfig = {
+    width: 90,
+    height: 30,
+    fontSize: 42,
+    noise: 4,
+    color: true,
+    mathMin: 1,
+    mathMax: 19,
+    mathOperator: '+/-',
+  };
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
   };
+
   return {
     ...config,
     ...userConfig,

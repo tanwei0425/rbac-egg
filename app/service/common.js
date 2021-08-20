@@ -20,10 +20,7 @@ class CommonService extends Service {
         console.log(result, 'result');
         return result;
     }
-    async setApisPermission() {
-        // const { ctx: { helper, locals } } = this;
 
-    }
     // 通过用户id 获取
     async userIdSelectAllPermission(id, type) {
         const { ctx: { helper, service } } = this;
@@ -78,11 +75,21 @@ class CommonService extends Service {
     // 正在登录的用户被禁用或者删除后，强制踢出
     async userStatusUpdateSyncRedis(key) {
         const { ctx: { helper } } = this;
-        // 清除redis
         const res = await helper.getRedis(key);
         if (res.token) {
             await helper.delRedis(key);
         }
+    }
+
+    // 正在登录的用户，以下情况触发用户对应权限修改，更新redis的接口权限。
+    // 1.角色授权更改
+    // 2.角色关联用户取消
+    // 3.角色被禁用
+    // 4.角色被删除
+    // 5.接口被禁用
+    // 6.接口被删除
+    async roleOrPermissionStatusUpdateSyncRedis(key) {
+        console.log(key, 'key');
     }
 }
 module.exports = CommonService;
