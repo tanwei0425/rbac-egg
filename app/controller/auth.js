@@ -8,7 +8,6 @@
  */
 'use strict';
 const Controller = require('egg').Controller;
-// const parser = require('ua-parser-js');
 class AuthController extends Controller {
   // 登录
   async signIn() {

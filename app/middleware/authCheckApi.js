@@ -7,7 +7,6 @@
  * @FilePath: /egg/admin/app/middleware/authCheckApi.js
  */
 'use strict';
-// const parser = require('ua-parser-js');
 // 不需要验证权限的接口,比如登录，验证码，获取用户信息这些只要是用户就需要有的接口
 const whiteUrl = [
     '/admin/v1/captcha', // 登录验证码
