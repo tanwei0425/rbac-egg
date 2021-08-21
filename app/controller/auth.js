@@ -8,6 +8,7 @@
  */
 'use strict';
 const Controller = require('egg').Controller;
+// const parser = require('ua-parser-js');
 class AuthController extends Controller {
   // 登录
   async signIn() {
@@ -45,6 +46,16 @@ class AuthController extends Controller {
     // 设置token
     const token = await helper.loginToken({ id: userInfo.id, username: userInfo.username }, app.config.redisConfig.expireTime);
     ctx.set('token', token);
+
+    // 自定义日志(登录日志)
+    service.common.customLogger({
+      name: 'loginLogger',
+      dataKey: 't-login',
+      data: {
+        username: userInfo.username,
+        status: token ? '成功' : '失败',
+      },
+    });
     helper.render(200);
   }
 

@@ -8,6 +8,7 @@
  */
 'use strict';
 const Service = require('egg').Service;
+const parser = require('ua-parser-js');
 class CommonService extends Service {
 
     // 退出登录
@@ -15,9 +16,7 @@ class CommonService extends Service {
         const { ctx: { helper, locals } } = this;
         // 清除redis
         const userInfo = locals.auth;
-        console.log(userInfo, 'userInfo');
         const result = await helper.delRedis(userInfo.id + userInfo.username);
-        console.log(result, 'result');
         return result;
     }
 
@@ -90,6 +89,62 @@ class CommonService extends Service {
     // 6.接口被删除
     async roleOrPermissionStatusUpdateSyncRedis(key) {
         console.log(key, 'key');
+    }
+
+    // 自定义日志基础信息
+    async customLogger({
+        name,
+        dataKey,
+        data,
+    }) {
+        const { ctx: { ip, host, protocol, request, locals }, app } = this;
+        // 获取客户端信息
+        const ua = parser(request.headers['user-agent']);
+        const userInfo = locals.auth || {};
+        const res = ip !== '127.0.0.1' ? await this.ipGetAddress(ip) : {};
+        const loggerData = {
+            username: userInfo.username,
+            os: ua.os,
+            browser: ua.browser,
+            path: request.path,
+            method: request.method,
+            ip, // 如果开启反响代理，请在config.default.js配置中开启config.proxy = true,否则拿不到真实ip
+            host, // 获取用户请求的域名
+            protocol, // 获取用户请求的协议
+            requestIp: request.ip,
+            address: res.address || '',
+            isp: res.isp || '',
+            ispArea: res.ispArea || '',
+            ...data,
+        };
+        app.getLogger(name).info(dataKey, loggerData);
+    }
+
+    // 根据ip获取所在地区
+    async ipGetAddress(ip) {
+        const ctx = this.ctx;
+        const { app: { config } } = ctx;
+        const res = await ctx.curl('https://api01.aliyun.venuscn.com/ip', {
+            method: 'GET',
+            data: {
+                ip,
+            },
+            // 直接发送原始 xml 数据，不需要 HttpClient 做特殊处理
+            headers: {
+                Authorization: `APPCODE ${config.ipGetAddressAppCode}`,
+            },
+        });
+        const resData = JSON.parse(res.data.toString());
+        if (resData.ret === 200) {
+            const data = resData.data;
+            const address = data.country + data.region + data.city;
+            return {
+                address,
+                isp: data.isp,
+                ispArea: data.area,
+            };
+        }
+        return {};
     }
 }
 module.exports = CommonService;

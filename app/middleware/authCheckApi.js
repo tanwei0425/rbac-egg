@@ -7,7 +7,7 @@
  * @FilePath: /egg/admin/app/middleware/authCheckApi.js
  */
 'use strict';
-
+// const parser = require('ua-parser-js');
 // 不需要验证权限的接口,比如登录，验证码，获取用户信息这些只要是用户就需要有的接口
 const whiteUrl = [
     '/admin/v1/captcha', // 登录验证码
@@ -28,7 +28,7 @@ function RegExpUrl(url1, url2) {
 module.exports = () => {
     // ...等待处理接口权限问题
     return async function authCheckApi(ctx, next) {
-        const { request: { path, method }, locals, helper } = ctx;
+        const { request: { path, method }, locals, helper, service } = ctx;
         if (whiteUrl.includes(path)) {
             await next();
         } else {
@@ -41,6 +41,16 @@ module.exports = () => {
                 helper.render(913);
                 return;
             }
+
+
+            // 自定义日志(权限接口操作日志)
+            service.common.customLogger({
+                name: 'apisLogger',
+                dataKey: 't-apis',
+                data: {
+                    status: target === -1 ? '失败' : '成功',
+                },
+            });
             await next();
         }
     };

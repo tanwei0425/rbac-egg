@@ -9,6 +9,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
+const path = require('path');
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -70,6 +71,28 @@ module.exports = appInfo => {
     mathMax: 19,
     mathOperator: '+/-',
   };
+
+  // config.proxy = true; // 开启
+  // config.maxProxyCount = 1; //开启的数量
+
+  // 日志配置
+  config.logger = {
+    outputJSON: true,
+  };
+  // 自定义日志
+  config.customLogger = {
+    // 登录日志
+    loginLogger: {
+      file: path.join(appInfo.root, 'logs/login-logger/login.log'),
+    },
+    // 授权接口操作日志
+    apisLogger: {
+      file: path.join(appInfo.root, 'logs/apis-logger/apis.log'),
+    },
+  };
+
+  // 全球IP归属地查询AppCode
+  config.ipGetAddressAppCode = '75dfd88407ca48aebf9491269fd796bb';
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
