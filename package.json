@@ -35,8 +35,8 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-policyInformationBase",
-    "stop": "egg-scripts stop --title=egg-server-policyInformationBase",
+    "start": "egg-scripts start --port=7002 --daemon --title=tw-rbac-egg",
+    "stop": "egg-scripts stop --port=7002 --title=tw-rbac-egg",
     "dev": "egg-bin dev --port 7002",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",

@@ -12,6 +12,12 @@ module.exports = {
     mysqlConfig: {
         prefix: 'tw_',
     },
+    security: {
+        csrf: {
+            enable: false,
+        },
+        domainWhiteList: ['http://localhost:3000'], // 域白名单
+    },
     mysql: {
         // 单数据库信息配置
         client: {
@@ -24,7 +30,7 @@ module.exports = {
             // 密码
             password: '123',
             // 数据库名
-            database: 'policy_information_base',
+            database: 'tw-rbac',
         },
         // client: {
         //     // host

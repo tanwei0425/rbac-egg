@@ -15,7 +15,7 @@ module.exports = () => {
         // 2.账号单点登录，如果不存redis，多token 多个人可以登录，存redis可以强行踢出重复用户
         const { request, app, helper } = ctx;
         const { redisConfig } = ctx.app.config;
-        const authorization = request.header.token + '';
+        const authorization = request.header.authorization + '';
         if (authorization) {
             const token = authorization.substring(7);
             const userInfo = await verifyToken(token, app.config.jwt.secret);
@@ -47,7 +47,7 @@ module.exports = () => {
                 await helper.setRedis(RedisKey, {
                     token: newToken,
                 }, redisConfig.expireTime);
-                ctx.set('token', newToken);
+                ctx.set('authorization', newToken);
             }
             ctx.locals.auth = {
                 id: userInfo.id,

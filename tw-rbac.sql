@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 16/08/2021 15:24:13
+ Date: 22/08/2021 12:05:34
 */
 
 SET NAMES utf8mb4;
@@ -50,7 +50,7 @@ INSERT INTO `tw_api` VALUES (10, '获取角色列表', '/admin/v1/role', 'GET', 
 INSERT INTO `tw_api` VALUES (11, '获取角色详情', '/admin/v1/role/:id', 'GET', '', '1', '2019-07-30 08:35:11', '2019-07-30 08:35:11', 2, 34, 0);
 INSERT INTO `tw_api` VALUES (12, '添加角色', '/admin/v1/role', 'POST', '', '1', '2019-07-30 08:35:22', '2019-07-30 08:35:22', 2, 35, 0);
 INSERT INTO `tw_api` VALUES (13, '修改角色', '/admin/v1/role/:id', 'PUT', '', '1', '2019-07-30 08:35:35', '2019-07-30 08:35:35', 2, 36, 0);
-INSERT INTO `tw_api` VALUES (14, '获取所有角色', '/admin/v1/role/all', 'GET', '', '1', '2019-07-30 08:37:52', '2021-08-15 15:25:36', 2, 37, 0);
+INSERT INTO `tw_api` VALUES (14, '获取所有角色', '/admin/v1/role/all', 'GET', '', '1', '2019-07-30 08:37:52', '2021-08-19 11:11:35', 0, 37, 0);
 INSERT INTO `tw_api` VALUES (15, '关联用户', '/admin/v1/role/associateUser/:id', 'PUT', '', '1', '2019-07-30 08:38:22', '2021-08-15 15:27:24', 2, 38, 0);
 INSERT INTO `tw_api` VALUES (16, '获取角色授权详情', '/admin/v1/role/auth/:id', 'GET', '', '1', '2019-07-30 08:40:13', '2021-08-15 15:29:08', 2, 39, 0);
 INSERT INTO `tw_api` VALUES (17, '角色授权', '/admin/v1/role/auth/:id', 'PUT', '', '1', '2019-07-30 08:40:55', '2021-08-15 15:28:17', 2, 40, 0);
@@ -87,23 +87,23 @@ INSERT INTO `tw_api` VALUES (47, '获取菜单列表', '/admin/v1/menu', 'GET', 
 INSERT INTO `tw_api` VALUES (48, '获取菜单详情', '/admin/v1/menu/:id', 'GET', '', '1', '2021-08-15 15:32:40', NULL, 7, 97, 0);
 INSERT INTO `tw_api` VALUES (49, '添加元素', '/admin/v1/element', 'POST', '', '1', '2021-08-15 15:34:12', NULL, 8, 98, 0);
 INSERT INTO `tw_api` VALUES (50, '删除元素', '/admin/v1/element/:id', 'DELETE', '', '1', '2021-08-15 15:34:37', NULL, 8, 99, 0);
-INSERT INTO `tw_api` VALUES (51, '修改元素', '/admin/v1/element/:id	', 'PUT', '', '1', '2021-08-15 15:35:26', NULL, 8, 100, 0);
+INSERT INTO `tw_api` VALUES (51, '修改元素', '/admin/v1/element/:id', 'PUT', '', '1', '2021-08-15 15:35:26', '2021-08-18 15:18:05', 8, 100, 0);
 INSERT INTO `tw_api` VALUES (52, '获取元素列表', '/admin/v1/element', 'GET', '', '1', '2021-08-15 15:35:51', NULL, 8, 101, 0);
-INSERT INTO `tw_api` VALUES (53, '获取元素详情', '/admin/v1/element/:id	', 'GET', '', '1', '2021-08-15 15:36:14', NULL, 8, 102, 0);
+INSERT INTO `tw_api` VALUES (53, '获取元素详情', '/admin/v1/element/:id', 'GET', '', '1', '2021-08-15 15:36:14', '2021-08-18 15:18:17', 8, 102, 0);
 INSERT INTO `tw_api` VALUES (54, '添加接口', '/admin/v1/api', 'POST', '', '1', '2021-08-15 15:37:09', NULL, 9, 103, 0);
 INSERT INTO `tw_api` VALUES (55, '删除接口', '/admin/v1/api/:id', 'DELETE', '', '1', '2021-08-15 15:37:31', NULL, 9, 104, 0);
 INSERT INTO `tw_api` VALUES (56, '修改接口', '/admin/v1/api/:id', 'PUT', '', '1', '2021-08-15 15:37:52', NULL, 9, 105, 0);
 INSERT INTO `tw_api` VALUES (57, '获取接口列表', '/admin/v1/api', 'GET', '', '1', '2021-08-15 15:38:14', NULL, 9, 106, 0);
 INSERT INTO `tw_api` VALUES (58, '获取接口详情', '/admin/v1/api/:id', 'GET', '', '1', '2021-08-15 15:38:29', NULL, 9, 107, 0);
-INSERT INTO `tw_api` VALUES (59, '获取所有菜单、元素和接口', '/admin/v1/allMenuElementApi', 'GET', '角色授权的渲染数据集合', '1', '2021-08-15 16:06:41', '2021-08-15 16:07:04', 0, 108, 0);
-INSERT INTO `tw_api` VALUES (60, '修改密码', '/admin/v1/updatePassword', 'PUT', '', '1', '2021-08-15 16:07:53', NULL, 0, 109, 0);
+INSERT INTO `tw_api` VALUES (59, '获取所有菜单、元素和接口', '/admin/v1/allMenuElementApi', 'GET', '角色授权的渲染数据集合', '1', '2021-08-15 16:06:41', '2021-08-20 16:14:17', 0, 108, 0);
+INSERT INTO `tw_api` VALUES (60, '修改密码', '/admin/v1/updatePassword', 'PUT', '', '1', '2021-08-15 16:07:53', '2021-08-19 08:03:36', 0, 109, 1);
 INSERT INTO `tw_api` VALUES (61, '修改系统主题', '/admin/v1/thmemUpdate', 'PUT', '', '1', '2021-08-15 16:08:12', NULL, 0, 110, 0);
-INSERT INTO `tw_api` VALUES (62, '获取验证码', '/admin/v1/captcha', 'GET', '登陆的验证码', '1', '2021-08-15 16:09:31', NULL, 0, 111, 0);
-INSERT INTO `tw_api` VALUES (63, '获取系统数据字典', '/admin/v1/auth/dict', 'GET', '', '1', '2021-08-15 16:10:16', NULL, 0, 112, 0);
-INSERT INTO `tw_api` VALUES (64, '获取系统菜单权限', '/admin/v1/auth/menu', 'GET', '', '1', '2021-08-15 16:12:21', NULL, 0, 113, 0);
-INSERT INTO `tw_api` VALUES (65, '获取系统用户信息（元素权限）', '/admin/v1/auth/user', 'GET', '获取系统用户信息（元素权限）', '1', '2021-08-15 16:12:54', '2021-08-15 16:13:04', 0, 114, 0);
-INSERT INTO `tw_api` VALUES (66, '用户登录', '/admin/v1/auth/signIn', 'POST', '', '1', '2021-08-15 16:13:38', '2021-08-15 16:15:31', 0, 115, 0);
-INSERT INTO `tw_api` VALUES (67, '用户登出', '/admin/v1/auth/signOut', 'GET', '', '1', '2021-08-15 16:13:56', NULL, 0, 116, 0);
+INSERT INTO `tw_api` VALUES (62, '获取验证码', '/admin/v1/captcha', 'GET', '登陆的验证码', '1', '2021-08-15 16:09:31', '2021-08-19 08:02:51', 0, 111, 1);
+INSERT INTO `tw_api` VALUES (63, '获取系统数据字典', '/admin/v1/auth/dict', 'GET', '', '1', '2021-08-15 16:10:16', '2021-08-19 08:03:04', 0, 112, 1);
+INSERT INTO `tw_api` VALUES (64, '获取系统菜单权限', '/admin/v1/auth/menu', 'GET', '', '1', '2021-08-15 16:12:21', '2021-08-19 08:03:01', 0, 113, 1);
+INSERT INTO `tw_api` VALUES (65, '获取系统用户信息（元素权限）', '/admin/v1/auth/user', 'GET', '获取系统用户信息（元素权限）', '1', '2021-08-15 16:12:54', '2021-08-19 08:02:58', 0, 114, 1);
+INSERT INTO `tw_api` VALUES (66, '用户登录', '/admin/v1/auth/signIn', 'POST', '', '1', '2021-08-15 16:13:38', '2021-08-19 08:02:36', 0, 115, 1);
+INSERT INTO `tw_api` VALUES (67, '用户登出', '/admin/v1/auth/signOut', 'GET', '', '1', '2021-08-15 16:13:56', '2021-08-19 08:02:33', 0, 116, 1);
 COMMIT;
 
 -- ----------------------------
@@ -112,20 +112,20 @@ COMMIT;
 DROP TABLE IF EXISTS `tw_dict_item`;
 CREATE TABLE `tw_dict_item` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `code` varchar(255) NOT NULL COMMENT '数据字典编码',
-  `name` varchar(50) NOT NULL COMMENT '数据类型名称',
-  `value` varchar(255) DEFAULT NULL COMMENT '数据类型值',
+  `code` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '数据字典编码',
+  `name` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '数据类型名称',
+  `value` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '数据类型值',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
   `sort` int unsigned DEFAULT '99' COMMENT '排序',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `create_by` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '创建人',
   `create_by_user_id` int DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '状态0禁用1启用',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '修改人',
+  `status` enum('0','1') CHARACTER SET utf8 NOT NULL DEFAULT '1' COMMENT '状态0禁用1启用',
+  `update_by` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改人',
   `update_by_user_id` int DEFAULT NULL COMMENT '修改人id',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of tw_dict_item
@@ -154,7 +154,7 @@ CREATE TABLE `tw_element` (
   `permission_id` int DEFAULT NULL,
   `is_delete` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '1删除0未删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of tw_element
@@ -182,6 +182,7 @@ INSERT INTO `tw_element` VALUES (33, '测试公共', 'demo-public', '', '1', '20
 INSERT INTO `tw_element` VALUES (34, '删除菜单', 'delete-menu', '', '1', '2021-08-13 18:41:42', NULL, 7, 89, 0);
 INSERT INTO `tw_element` VALUES (35, '删除元素', 'delete-element', '', '1', '2021-08-13 18:46:32', NULL, 8, 90, 0);
 INSERT INTO `tw_element` VALUES (36, '删除接口', 'delete-api', '', '1', '2021-08-13 18:47:55', NULL, 9, 91, 0);
+INSERT INTO `tw_element` VALUES (37, 'ceshi', '123123', '', '1', '2021-08-21 17:27:07', NULL, 0, 117, 0);
 COMMIT;
 
 -- ----------------------------
@@ -238,13 +239,13 @@ COMMIT;
 DROP TABLE IF EXISTS `tw_org`;
 CREATE TABLE `tw_org` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '机构id',
-  `name` varchar(32) NOT NULL COMMENT '机构名称',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '机构名称',
   `status` tinyint unsigned DEFAULT '1' COMMENT '1-开启 0-禁用',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of tw_org
@@ -262,7 +263,7 @@ CREATE TABLE `tw_permission` (
   `id` int NOT NULL AUTO_INCREMENT,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限类型',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of tw_permission
@@ -377,6 +378,7 @@ INSERT INTO `tw_permission` VALUES (113, 'api');
 INSERT INTO `tw_permission` VALUES (114, 'api');
 INSERT INTO `tw_permission` VALUES (115, 'api');
 INSERT INTO `tw_permission` VALUES (116, 'api');
+INSERT INTO `tw_permission` VALUES (117, 'element');
 COMMIT;
 
 -- ----------------------------
@@ -434,7 +436,7 @@ INSERT INTO `tw_role` VALUES (3, '公司管理员', '', '0', '2019-10-14 10:44:4
 INSERT INTO `tw_role` VALUES (4, '谭伟测试', '3123123', '0', '2021-07-06 17:13:30', '2021-07-10 19:32:24', 1);
 INSERT INTO `tw_role` VALUES (7, 'tanwei', '312312', '1', '2021-07-10 19:31:17', '2021-07-10 19:31:21', 1);
 INSERT INTO `tw_role` VALUES (8, 'tanwei11', '1', '1', '2021-07-10 19:33:24', '2021-07-12 09:52:40', 0);
-INSERT INTO `tw_role` VALUES (9, '3213213', '13', '1', '2021-07-12 15:59:22', NULL, 0);
+INSERT INTO `tw_role` VALUES (9, '3213213', '13', '1', '2021-07-12 15:59:22', '2021-08-20 10:48:45', 1);
 INSERT INTO `tw_role` VALUES (10, '测试角色', '谭伟测试', '1', '2021-07-29 14:38:03', NULL, 0);
 INSERT INTO `tw_role` VALUES (11, '11123123', '321312', '1', '2021-08-11 16:08:54', NULL, 0);
 INSERT INTO `tw_role` VALUES (12, '3213123123', '312312321', '1', '2021-08-11 16:19:47', '2021-08-11 17:47:34', 0);
@@ -454,7 +456,7 @@ CREATE TABLE `tw_role_permission` (
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `gas_role_permission_gasRoleId_gasPermissionId_unique` (`role_id`,`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=494 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=734 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of tw_role_permission
@@ -502,17 +504,40 @@ INSERT INTO `tw_role_permission` VALUES (114, 2, 78, '2019-11-01 17:07:31');
 INSERT INTO `tw_role_permission` VALUES (115, 2, 79, '2019-11-01 17:07:31');
 INSERT INTO `tw_role_permission` VALUES (116, 1, 78, '2019-11-01 17:07:41');
 INSERT INTO `tw_role_permission` VALUES (117, 1, 79, '2019-11-01 17:07:41');
-INSERT INTO `tw_role_permission` VALUES (483, 10, 5, '2021-08-15 14:30:49');
-INSERT INTO `tw_role_permission` VALUES (484, 10, 8, '2021-08-15 14:30:49');
-INSERT INTO `tw_role_permission` VALUES (485, 10, 20, '2021-08-15 14:30:49');
-INSERT INTO `tw_role_permission` VALUES (486, 10, 21, '2021-08-15 14:30:49');
-INSERT INTO `tw_role_permission` VALUES (487, 10, 27, '2021-08-15 14:30:49');
-INSERT INTO `tw_role_permission` VALUES (488, 10, 28, '2021-08-15 14:30:49');
-INSERT INTO `tw_role_permission` VALUES (489, 10, 42, '2021-08-15 14:30:49');
-INSERT INTO `tw_role_permission` VALUES (490, 10, 87, '2021-08-15 14:30:49');
-INSERT INTO `tw_role_permission` VALUES (491, 10, 90, '2021-08-15 14:30:49');
 INSERT INTO `tw_role_permission` VALUES (492, 8, 9, '2021-08-15 14:41:47');
 INSERT INTO `tw_role_permission` VALUES (493, 8, 30, '2021-08-15 14:41:47');
+INSERT INTO `tw_role_permission` VALUES (702, 10, 2, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (703, 10, 5, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (704, 10, 8, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (705, 10, 20, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (706, 10, 21, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (707, 10, 27, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (708, 10, 28, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (709, 10, 42, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (710, 10, 87, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (711, 10, 90, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (712, 10, 17, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (713, 10, 22, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (714, 10, 23, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (715, 10, 24, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (716, 10, 46, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (717, 10, 11, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (718, 10, 15, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (719, 10, 16, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (720, 10, 33, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (721, 10, 34, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (722, 10, 35, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (723, 10, 36, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (724, 10, 37, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (725, 10, 38, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (726, 10, 39, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (727, 10, 40, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (728, 10, 55, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (729, 10, 92, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (730, 10, 98, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (731, 10, 99, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (732, 10, 108, '2021-08-20 14:48:52');
+INSERT INTO `tw_role_permission` VALUES (733, 10, 110, '2021-08-20 14:48:52');
 COMMIT;
 
 -- ----------------------------
@@ -522,18 +547,18 @@ DROP TABLE IF EXISTS `tw_system_theme`;
 CREATE TABLE `tw_system_theme` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` int unsigned NOT NULL COMMENT '用户id',
-  `content` varchar(255) DEFAULT NULL COMMENT '皮肤主题内容',
+  `content` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '皮肤主题内容',
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of tw_system_theme
 -- ----------------------------
 BEGIN;
-INSERT INTO `tw_system_theme` VALUES (1, 1, '{\"overallStyle\":\"dark\",\"themeColor\":\"rgb(19, 194, 194)\",\"menuTrigger\":true,\"breadcrumb\":true,\"fixedHeader\":true,\"displaySystemConfig\":true}', '2021-06-25 17:23:50', '2021-08-12 15:15:29');
-INSERT INTO `tw_system_theme` VALUES (5, 2, '{\"overallStyle\":\"dark\",\"themeColor\":\"rgb(19, 194, 194)\",\"menuTrigger\":false,\"breadcrumb\":true,\"fixedHeader\":true,\"displaySystemConfig\":true}', '2021-07-26 08:47:16', '2021-08-12 16:46:54');
+INSERT INTO `tw_system_theme` VALUES (1, 1, '{\"overallStyle\":\"dark\",\"themeColor\":\"rgb(19, 194, 194)\",\"menuTrigger\":true,\"breadcrumb\":true,\"fixedHeader\":true,\"displaySystemConfig\":true}', '2021-06-25 17:23:50', '2021-08-19 08:06:56');
+INSERT INTO `tw_system_theme` VALUES (5, 2, '{\"overallStyle\":\"dark\",\"themeColor\":\"rgb(19, 194, 194)\",\"menuTrigger\":false,\"breadcrumb\":true,\"fixedHeader\":true,\"displaySystemConfig\":true}', '2021-07-26 08:47:16', '2021-08-20 10:02:41');
 COMMIT;
 
 -- ----------------------------
@@ -564,9 +589,9 @@ CREATE TABLE `tw_user` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `tw_user` VALUES (1, 'admin', 'f35acb01168ef49faa94f67d075eb096', '超级管理员', '', 0, 1, 0, '1', '2019-07-25 09:22:12', '2021-07-02 09:38:36', 1, 1, 0);
-INSERT INTO `tw_user` VALUES (2, 'tanwei', 'f35acb01168ef49faa94f67d075eb096', 'tanwei', '', 0, 0, 1, '1', '2021-07-01 15:26:39', '2021-08-12 16:41:16', 1, 1, 0);
+INSERT INTO `tw_user` VALUES (2, 'tanwei', 'f35acb01168ef49faa94f67d075eb096', 'tanwei', '', 0, 0, 1, '1', '2021-07-01 15:26:39', '2021-08-20 10:46:55', 1, 1, 0);
 INSERT INTO `tw_user` VALUES (3, 'tanwei1', 'f35acb01168ef49faa94f67d075eb096', 'tanwei1', '', 0, 0, 1, '0', '2021-07-01 15:26:39', NULL, 1, 1, 0);
-INSERT INTO `tw_user` VALUES (16, 'demo', '2a2af10e67e7e2a49fb2ed6e45ffa227', '', '', 1, 0, 1, '1', '2021-07-02 23:16:44', '2021-07-27 14:36:51', NULL, NULL, 0);
+INSERT INTO `tw_user` VALUES (16, 'demo', '2a2af10e67e7e2a49fb2ed6e45ffa227', '', '', 1, 0, 1, '0', '2021-07-02 23:16:44', '2021-08-20 10:22:39', NULL, NULL, 0);
 INSERT INTO `tw_user` VALUES (17, 'demo2', '2a2af10e67e7e2a49fb2ed6e45ffa227', '谭伟测试2', '', 1, 0, 1, '0', '2021-07-02 23:19:28', NULL, NULL, NULL, 0);
 INSERT INTO `tw_user` VALUES (18, 'demo3', '2a2af10e67e7e2a49fb2ed6e45ffa227', '谭伟', '13333333333', 1, 0, 1, '1', '2021-07-04 14:41:19', NULL, NULL, NULL, 0);
 INSERT INTO `tw_user` VALUES (19, 'demo4', '2a2af10e67e7e2a49fb2ed6e45ffa227', '谭伟11222', '13333333332', 1, 0, 1, '0', '2021-07-04 14:44:02', '2021-07-10 19:25:35', NULL, NULL, 0);
@@ -604,7 +629,7 @@ CREATE TABLE `tw_user_role` (
   `role_id` int DEFAULT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=244 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of tw_user_role
@@ -627,15 +652,15 @@ INSERT INTO `tw_user_role` VALUES (208, 22, 1, '2021-08-12 16:05:26');
 INSERT INTO `tw_user_role` VALUES (209, 21, 1, '2021-08-12 16:05:26');
 INSERT INTO `tw_user_role` VALUES (210, 20, 1, '2021-08-12 16:05:26');
 INSERT INTO `tw_user_role` VALUES (211, 18, 1, '2021-08-12 16:05:26');
-INSERT INTO `tw_user_role` VALUES (212, 16, 1, '2021-08-12 16:05:26');
 INSERT INTO `tw_user_role` VALUES (213, 1, 1, '2021-08-12 16:05:26');
 INSERT INTO `tw_user_role` VALUES (216, 53, 1, '2021-08-12 16:34:16');
 INSERT INTO `tw_user_role` VALUES (217, 53, 2, '2021-08-12 16:34:16');
 INSERT INTO `tw_user_role` VALUES (218, 53, 8, '2021-08-12 16:34:16');
 INSERT INTO `tw_user_role` VALUES (219, 53, 9, '2021-08-12 16:34:58');
 INSERT INTO `tw_user_role` VALUES (220, 50, 9, '2021-08-12 16:34:58');
-INSERT INTO `tw_user_role` VALUES (221, 2, 8, '2021-08-12 16:41:16');
-INSERT INTO `tw_user_role` VALUES (222, 2, 10, '2021-08-12 16:41:16');
+INSERT INTO `tw_user_role` VALUES (225, 16, 1, '2021-08-20 10:22:39');
+INSERT INTO `tw_user_role` VALUES (242, 2, 8, '2021-08-20 10:46:51');
+INSERT INTO `tw_user_role` VALUES (243, 2, 10, '2021-08-20 10:46:51');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

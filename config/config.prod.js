@@ -21,11 +21,11 @@ module.exports = {
             // 端口号
             port: '3306',
             // 用户名
-            user: 'root',
+            user: 'tw-rbac',
             // 密码
-            password: '123',
+            password: 'aNc32WKaMNh7fFdY',
             // 数据库名
-            database: 'policy_information_base',
+            database: 'tw-rbac',
         },
         // client: {
         //     // host

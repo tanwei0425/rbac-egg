@@ -24,14 +24,14 @@ module.exports = appInfo => {
       csrf: {
         enable: false,
       },
-      domainWhiteList: ['http://localhost:3000'], // 域白名单
+      domainWhiteList: ['https://admin.hellotanwei.cn'], // 域白名单
     },
     jwt: {
       secret: 'tw_fight_@666', // 自定义 jwt 的加密条件字符串
     },
     cors: {
       origin: '*',
-      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
     },
   };
 
@@ -72,7 +72,7 @@ module.exports = appInfo => {
     mathOperator: '+/-',
   };
 
-  // config.proxy = true; // 开启
+  config.proxy = true; // 开启
   // config.maxProxyCount = 1; //开启的数量
 
   // 日志配置

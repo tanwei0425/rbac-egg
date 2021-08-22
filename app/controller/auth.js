@@ -44,7 +44,7 @@ class AuthController extends Controller {
 
     // 设置token
     const token = await helper.loginToken({ id: userInfo.id, username: userInfo.username }, app.config.redisConfig.expireTime);
-    ctx.set('token', token);
+    ctx.set('authorization', token);
 
     // 自定义日志(登录日志)
     service.common.customLogger({
@@ -83,6 +83,10 @@ class AuthController extends Controller {
     // 查询机构
     if (userInfo.org_id) {
       const orgRes = await ctx.service.org.show({ id: userInfo.org_id, status: 1 });
+      if (!orgRes) {
+        ctx.helper.render(912);
+        return;
+      }
       res.org_name = orgRes.name;
     }
 
