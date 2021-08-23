@@ -111,7 +111,6 @@ class CommonService extends Service {
             ip, // 如果开启反响代理，请在config.default.js配置中开启config.proxy = true,否则拿不到真实ip
             host, // 获取用户请求的域名
             protocol, // 获取用户请求的协议
-            requestIp: request.ip,
             address: res.address || '',
             isp: res.isp || '',
             ispArea: res.ispArea || '',

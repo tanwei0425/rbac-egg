@@ -18,7 +18,11 @@ module.exports = appInfo => {
   /**
    * built-in config
    * @type {Egg.EggAppConfig}
-   **/
+  **/
+
+  // appInfo.root 应用根目录，只有在 local 和 unittest 环境下为 baseDir，其他都为 HOME。
+  // appInfo.baseDir 应用代码的目录
+
   const config = exports = {
     security: {
       csrf: {
@@ -83,11 +87,11 @@ module.exports = appInfo => {
   config.customLogger = {
     // 登录日志
     loginLogger: {
-      file: path.join(appInfo.root, 'logs/login-logger/login.log'),
+      file: path.join(appInfo.baseDir, 'logs/login-logger/login.log'),
     },
     // 授权接口操作日志
     apisLogger: {
-      file: path.join(appInfo.root, 'logs/apis-logger/apis.log'),
+      file: path.join(appInfo.baseDir, 'logs/apis-logger/apis.log'),
     },
   };
 

@@ -41,8 +41,7 @@ module.exports = () => {
                 return;
             }
 
-
-            // 自定义日志(权限接口操作日志)
+            // 自定义日志(权限接口操作日志) 同步不阻塞
             service.common.customLogger({
                 name: 'apisLogger',
                 dataKey: 't-apis',
