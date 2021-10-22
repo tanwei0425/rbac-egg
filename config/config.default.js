@@ -76,6 +76,7 @@ module.exports = appInfo => {
     mathOperator: '+/-',
   };
 
+  // 反向代理配置
   config.proxy = true; // 开启
   // config.maxProxyCount = 1; //开启的数量
 
@@ -97,6 +98,21 @@ module.exports = appInfo => {
 
   // 全球IP归属地查询AppCode
   config.ipGetAddressAppCode = '75dfd88407ca48aebf9491269fd796bb';
+
+  // socket.io配置
+  config.io = {
+    init: {
+      // 默认ws引擎
+      wsEngine: 'ws',
+    },
+    // 不同命名空间的分别配置处理 /
+    namespace: {
+      '/': {
+        connectionMiddleware: ['connection'],
+        packetMiddleware: ['packet'],
+      },
+    },
+  };
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',

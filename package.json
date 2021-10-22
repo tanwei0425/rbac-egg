@@ -15,6 +15,7 @@
     "egg-mysql": "^3.0.0",
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.11.0",
+    "egg-socket.io": "^4.1.6",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
     "node-rsa": "^1.1.1",
@@ -35,9 +36,9 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --port=7002 --daemon --title=tw-rbac-egg",
+    "start": "egg-scripts start --port=7002 --sticky --daemon --title=tw-rbac-egg",
     "stop": "egg-scripts stop --port=7002 --title=tw-rbac-egg",
-    "dev": "egg-bin dev --port 7002",
+    "dev": "egg-bin dev --port=7002 --sticky",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",

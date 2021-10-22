@@ -46,7 +46,7 @@ class AuthController extends Controller {
     const token = await helper.loginToken({ id: userInfo.id, username: userInfo.username }, app.config.redisConfig.expireTime);
     ctx.set('authorization', token);
 
-    // 自定义日志(登录日志) 同步不阻塞
+    // 自定义日志(登录日志) 异步不阻塞
     service.common.customLogger({
       name: 'loginLogger',
       dataKey: 't-login',

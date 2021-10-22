@@ -27,7 +27,7 @@ function RegExpUrl(url1, url2) {
 module.exports = () => {
     // ...等待处理接口权限问题
     return async function authCheckApi(ctx, next) {
-        const { request: { path, method }, locals, helper, service } = ctx;
+        const { request: { path, method }, locals, helper } = ctx;
         if (whiteUrl.includes(path)) {
             await next();
         } else {
@@ -41,8 +41,8 @@ module.exports = () => {
                 return;
             }
 
-            // 自定义日志(权限接口操作日志) 同步不阻塞
-            service.common.customLogger({
+            // 自定义日志(权限接口操作日志) 异步不阻塞
+            ctx.service.common.customLogger({
                 name: 'apisLogger',
                 dataKey: 't-apis',
                 data: {

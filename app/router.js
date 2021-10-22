@@ -12,7 +12,7 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const { router, controller } = app;
+  const { router, controller, io } = app;
   router.post('/admin/v1/auth/signIn', controller.auth.signIn);
   router.get('/admin/v1/auth/signOut', controller.auth.signOut);
   router.get('/admin/v1/auth/user', controller.auth.user);
@@ -41,4 +41,12 @@ module.exports = app => {
 
   router.resources('/admin/v1/api', controller.api);
 
+  // socket.io 路由(测试)
+  io.of('/').route('demo', io.controller.demo.index);
+  io.of('/').route('demo1', io.controller.demo1.index);
+  // socket.io说明：
+  // io.of('/') 对应前端 ws://127.0.0.1:7002/
+  // io.of('/xxx') 对应前端 ws://127.0.0.1:7002/xxx ,对应着config中 namespace 'xxx':{connectionMiddleware:[],packetMiddleware:[]}
+  // io.of('/').route('x',io.controller.xx) 对应前端 socket.emit('x', {}); 第二个参数xx对应着后端处理的控制器和方法
+  // await socket.emit('xxx', {}); 后端发送对应前端 socket.on('xxx', msg => {});
 };

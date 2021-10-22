@@ -18,6 +18,10 @@ module.exports = {
     enable: true,
     package: 'egg-cors',
   },
+  io: {
+    enable: true,
+    package: 'egg-socket.io',
+  },
   mysql: {
     enable: true,
     package: 'egg-mysql',
