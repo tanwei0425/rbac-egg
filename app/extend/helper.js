@@ -193,6 +193,9 @@ module.exports = {
         return decryptedData;
     },
     async exportFile({ data, filename, options = [], saveXlsx = false, directoryPath = './' }) {
+        // 因为插件问题，如果使用xlsx样式无效，请安装xlsx-style，
+        // 并且修改/node_modules/node-xlsx/lib/index.js 中
+        // var _xlsx = _interopRequireDefault(require("xlsx")) 改为 var _xlsx = _interopRequireDefault(require('xlsx-style'));
         const { ctx } = this;
         const buffer = xlsx.build(data, options);
         const newFilename = `${encodeURIComponent(filename)} ${moment(Date.now()).format('YYYY-MM-DD')}`;
