@@ -4,7 +4,7 @@
  * @Date: 2020-07-20 14:58:23
  * @LastEditors: tanwei
  * @LastEditTime: 2020-07-20 15:03:39
- * @FilePath: /egg/admin/app/service/common.js
+ * @FilePath: /egg/admin/app/service/dict.js
  */
 'use strict';
 const Service = require('egg').Service;

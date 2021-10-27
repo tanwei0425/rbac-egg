@@ -47,7 +47,7 @@ class AuthController extends Controller {
     ctx.set('authorization', token);
 
     // 自定义日志(登录日志) 异步不阻塞
-    service.common.customLogger({
+    service.common.index.customLogger({
       name: 'loginLogger',
       dataKey: 't-login',
       data: {
@@ -61,7 +61,7 @@ class AuthController extends Controller {
   // 退出登录
   async signOut() {
     const { ctx } = this;
-    const res = await ctx.service.common.loginOut();
+    const res = await ctx.service.common.index.loginOut();
     ctx.helper.render(res ? 200 : 0);
   }
 
@@ -123,7 +123,7 @@ class AuthController extends Controller {
       is_delete: 0,
     };
     if (userInfo.is_super !== 1) {
-      const activePermission = await ctx.service.common.userIdSelectAllPermission(userInfo.id, 'element');
+      const activePermission = await ctx.service.common.index.userIdSelectAllPermission(userInfo.id, 'element');
       elementWhere.permission_id = activePermission;
     }
     const elementsRes = await ctx.service.element.index(elementColumns, elementWhere);
@@ -138,7 +138,7 @@ class AuthController extends Controller {
       is_delete: 0,
     };
     if (userInfo.is_super !== 1) {
-      const activePermission = await ctx.service.common.userIdSelectAllPermission(userInfo.id, 'api');
+      const activePermission = await ctx.service.common.index.userIdSelectAllPermission(userInfo.id, 'api');
       apiWhere.permission_id = activePermission;
     }
     const apisRes = await ctx.service.api.index(apiColumns, apiWhere);
@@ -170,7 +170,7 @@ class AuthController extends Controller {
       ctx.helper.render(200, res);
     } else {
       //  通过id查询所属角色下某一类型的权限集合（在用）
-      const activePermission = await ctx.service.common.userIdSelectAllPermission(userInfo.id, 'menu');
+      const activePermission = await ctx.service.common.index.userIdSelectAllPermission(userInfo.id, 'menu');
       // 获取当前角色下的菜单
       const columns = ['id', 'pid', 'name', 'path', 'cmp_path', 'icon', 'is_router', 'is_show', 'sort'];
       const where = {

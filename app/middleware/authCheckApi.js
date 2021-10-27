@@ -42,7 +42,7 @@ module.exports = () => {
             }
 
             // 自定义日志(权限接口操作日志) 异步不阻塞
-            ctx.service.common.customLogger({
+            ctx.service.common.index.customLogger({
                 name: 'apisLogger',
                 dataKey: 't-apis',
                 data: {

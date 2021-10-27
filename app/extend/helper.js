@@ -12,6 +12,11 @@ const crypto = require('crypto');
 const { codeStatus } = require('./constants');
 const NodeRSA = require('node-rsa');
 const CryptoJS = require('crypto-js');
+const xlsx = require('node-xlsx');
+const moment = require('moment');
+const path = require('path');
+const fs = require('fs');
+
 const privatePem = `-----BEGIN RSA PRIVATE KEY-----
 MIICWwIBAAKBgQCTbXZ91+43DNmT5ph+o69UGmgSYr8g2peAOAyM62S2txT4xaFj
 AkOEjNebw6rcwJZSbu+l/YOI8+EW+TfNLqie4nPg3eqHRDjScJFq81xblh6afKSo
@@ -186,5 +191,22 @@ module.exports = {
         const bytes = CryptoJS.AES.decrypt(content, this.ctx.app.config.secret);
         const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
         return decryptedData;
+    },
+    async exportFile({ data, filename, options = [], saveXlsx = false, directoryPath = './' }) {
+        const { ctx } = this;
+        const buffer = xlsx.build(data, options);
+        const newFilename = `${encodeURIComponent(filename)} ${moment(Date.now()).format('YYYY-MM-DD')}`;
+        // 存储在本地
+        if (saveXlsx) {
+            const filePath = path.resolve(__dirname, '../public/export/', directoryPath, `${newFilename}.xlsx`);
+            fs.writeFileSync(filePath, buffer, 'utf-8');
+        }
+        // 返回流文件
+        ctx.set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8');
+        ctx.set('Content-disposition', `attachment;filename=${newFilename}.xlsx`);
+
+        // 直接返回二进制，或者读取刚才存储的文件返回也行
+        // return fs.createReadStream(filePath, 'base64'); // 读取本地保存的文件返回
+        return buffer.toString('base64');
     },
 };

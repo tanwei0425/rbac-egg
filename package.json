@@ -19,9 +19,11 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
     "node-rsa": "^1.1.1",
+    "node-xlsx": "^0.17.2",
     "svg-captcha": "^1.4.0",
     "ua-parser-js": "^0.7.28",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "xlsx-style": "^0.8.13"
   },
   "devDependencies": {
     "autod": "^3.0.1",

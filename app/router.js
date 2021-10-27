@@ -26,6 +26,7 @@ module.exports = app => {
 
   router.get('/admin/v1/user/all', controller.user.all);
   router.get('/admin/v1/user/reloadPwd/:id', controller.user.reloadPwd);
+  router.get('/admin/v1/user/export', controller.user.exportUser);
   router.resources('/admin/v1/user', controller.user);
 
   router.get('/admin/v1/role/associateUser/:id', controller.role.getAssociateUser);

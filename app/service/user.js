@@ -54,6 +54,23 @@ class UserService extends Service {
         return data;
     }
 
+    // 导出查询列表
+    async exportList(columns, query) {
+        const { app: { mysql, config } } = this;
+        const { escape } = mysql;
+        const prefix = config.mysqlConfig.prefix;
+        const { username, name, status } = query;
+        let whereSql = '';
+        let listSql = `select ${columns} from ${prefix}user where is_delete=0 and is_super=0 `;
+        username && (whereSql += `and username like ${escape(`%${username}%`)} `);
+        name && (whereSql += `and name like ${escape(`%${name}%`)} `);
+        status && (whereSql += `and status=${escape(status)} `);
+        whereSql && (listSql += whereSql);
+        listSql += 'order by id desc';
+        const data = await mysql.query(listSql);
+        return data;
+    }
+
     // 添加
     async create({ roles, ...rest }) {
         const { app: { mysql, config }, ctx } = this;

@@ -62,7 +62,7 @@ class UserController extends Controller {
         };
         const res = await service.user.update(rest, options);
         if (res && rest.status === '0') {
-            await service.common.userStatusUpdateSyncRedis(params.id + username);
+            await service.common.index.userStatusUpdateSyncRedis(params.id + username);
         }
         helper.render(res ? 200 : 501, {});
     }
@@ -87,7 +87,7 @@ class UserController extends Controller {
         }
         const res = await service.user.update(row, options);
         if (res) {
-            await service.common.userStatusUpdateSyncRedis(params.id + userInfo.username);
+            await service.common.index.userStatusUpdateSyncRedis(params.id + userInfo.username);
         }
         helper.render(res ? 200 : 501, {});
     }
@@ -113,6 +113,92 @@ class UserController extends Controller {
         };
         const res = await service.user.index(columns, where);
         helper.render(200, res);
+    }
+
+    async exportUser() {
+        const { ctx } = this;
+        const { service, query, helper } = ctx;
+        const columns = ['username', 'name', 'phone', 'status'];
+        const userDataRes = await service.user.exportList(columns, query);
+        const headerStyle = {
+            fill: {
+                bgColor: { rgb: 'CCCCCC' },
+                fgColor: { rgb: 'AAAAAA' },
+                patternType: 'solid',
+            },
+            alignment: {
+                horizontal: 'left',
+                vertical: 'center',
+                wrapText: true,
+            },
+            font: {
+                sz: 16,
+            },
+            border: {
+                top: {
+                    style: 'thin', color: { rgb: 'CCCCCC' },
+                },
+                bottom: {
+                    style: 'thin', color: { rgb: 'CCCCCC' },
+                },
+                left: {
+                    style: 'thin', color: { rgb: 'CCCCCC' },
+                },
+                right: {
+                    style: 'thin', color: { rgb: 'CCCCCC' },
+                },
+            },
+        };
+        const demoStyle = {
+            font: {
+                color: {
+                    rgb: 'FF4D4F',
+                },
+                sz: 15,
+            },
+            alignment: {
+                horizontal: 'center',
+                vertical: 'center',
+            },
+        };
+        const exportUserData = [
+            [{ v: '合并单元格测试', s: demoStyle }],
+            [{ v: '用户名称', s: headerStyle }, { v: '真实姓名', s: headerStyle }, { v: '手机号', s: headerStyle }, { v: '状态', s: headerStyle }],
+        ];
+        userDataRes.forEach(val => {
+            exportUserData.push(
+                [val.username, val.name, val.phone, val.status === '1' ? '启用' : '禁用']
+            );
+        });
+        const data = [
+            {
+                name: '用户信息',
+                data: exportUserData,
+            },
+        ];
+        const filename = '系统用户';
+        const options = {
+            '!cols': [
+                { wch: 25 },
+                { wch: 25 },
+                { wch: 15 },
+                { wch: 10 },
+            ],
+            // 合并0,0 - 0，3
+            // c是行 , r是列
+            '!merges': [
+                { s: { c: 0, r: 0 }, e: { c: 3, r: 0 } },
+            ],
+        };
+
+        const resBuffer = await helper.exportFile({
+            data,
+            filename,
+            options,
+            directoryPath: 'user/',
+            saveXlsx: true,
+        });
+        ctx.body = resBuffer; // 直接返回流文件
     }
 }
 
