@@ -32,7 +32,6 @@ module.exports = () => {
                 helper.render(903);
                 return;
             }
-
             // 过期时间还剩xxx秒的时候，如果用户在操作，自动增加过期时间并更换token
             const timestamp = new Date().getTime() / 1000;
             // 去除redis中因
@@ -43,8 +42,11 @@ module.exports = () => {
                 }, app.config.jwt.secret, {
                     expiresIn: redisConfig.expireTime,
                 });
+                // 删除redis
                 await helper.delRedis(RedisKey);
+                // 只更换token，其余保持不变
                 await helper.setRedis(RedisKey, {
+                    ...redisInfo,
                     token: newToken,
                 }, redisConfig.expireTime);
                 ctx.set('authorization', newToken);
