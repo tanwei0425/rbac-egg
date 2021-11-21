@@ -16,6 +16,7 @@ const whiteUrl = [
     '/admin/v1/dict', // 获取数据字典
     '/admin/v1/auth/signOut', // 登出
     '/admin/v1/updatePassword', // 修改密码
+    '/admin/v1/baby', // 门户宝宝名称
 ];
 // 匹配/:id 和 /8 等情况
 function RegExpUrl(url1, url2) {
@@ -28,7 +29,10 @@ module.exports = () => {
     // ...等待处理接口权限问题
     return async function authCheckApi(ctx, next) {
         const { request: { path, method }, locals, helper } = ctx;
-        if (whiteUrl.includes(path)) {
+        if (
+            whiteUrl.includes(path) ||
+            (path.indexOf('/admin/v1/baby/') >= 0 && method === 'DELETE') // 暂时处理delete情况
+        ) {
             await next();
         } else {
             const userInfo = locals.auth;

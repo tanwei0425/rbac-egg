@@ -42,6 +42,9 @@ module.exports = app => {
 
   router.resources('/admin/v1/api', controller.api);
 
+  // 门户宝宝名称
+  router.resources('/admin/v1/baby', controller.baby);
+
   // socket.io 路由(测试)
   io.of('/').route('demo', io.controller.demo.index);
   io.of('/').route('demo1', io.controller.demo1.index);
