@@ -24,16 +24,16 @@ module.exports = app => {
   router.put('/admin/v1/updatePassword', controller.common.updatePassword);
   router.get('/admin/v1/allMenuElementApi', controller.common.allMenuElementApi);
 
-  router.get('/admin/v1/user/all', controller.user.all);
-  router.get('/admin/v1/user/reloadPwd/:id', controller.user.reloadPwd);
-  router.get('/admin/v1/user/export', controller.user.exportUser);
+  router.get('/admin/v1/allUser', controller.user.all);
+  router.get('/admin/v1/reloadPwdUser/:id', controller.user.reloadPwd);
+  router.get('/admin/v1/exportUser', controller.user.exportUser);
   router.resources('/admin/v1/user', controller.user);
 
   router.get('/admin/v1/role/associateUser/:id', controller.role.getAssociateUser);
   router.put('/admin/v1/role/associateUser/:id', controller.role.putAssociateUser);
   router.get('/admin/v1/role/auth/:id', controller.role.getRoleAuthDetail);
   router.put('/admin/v1/role/auth/:id', controller.role.setRoleAuth);
-  router.get('/admin/v1/role/all', controller.role.all);
+  router.get('/admin/v1/allRole', controller.role.all);
   router.resources('/admin/v1/role', controller.role);
 
   router.resources('/admin/v1/menu', controller.menu);

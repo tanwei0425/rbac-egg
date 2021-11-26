@@ -133,7 +133,7 @@ class CommonService extends Service {
                 Authorization: `APPCODE ${config.ipGetAddressAppCode}`,
             },
         });
-        const resData = JSON.parse(res.data.toString());
+        const resData = res.data.toString() ? JSON.parse(res.data.toString()) : {};
         if (resData.ret === 200) {
             const data = resData.data;
             const address = data.country + data.region + data.city;

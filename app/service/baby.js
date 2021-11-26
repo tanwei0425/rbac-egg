@@ -43,11 +43,13 @@ class ApiService extends Service {
     }
     // 添加
     async create(data) {
+        console.log(data, 'data');
         const { ctx: { ip, service }, app: { mysql, config } } = this;
+        console.log(ip, 'ip');
         const prefix = config.mysqlConfig.prefix;
         data.created_at = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
         data.ip = ip;
-        const getAddress = ip !== '127.0.0.1' ? await service.common.index.ipGetAddress(ip) : {};
+        const getAddress = (ip !== '127.0.0.1' || ip !== '::1') ? await service.common.index.ipGetAddress(ip) : {};
         data.address = getAddress.address;
         const result = await mysql.insert(`${prefix}baby`, {
             ...data,
