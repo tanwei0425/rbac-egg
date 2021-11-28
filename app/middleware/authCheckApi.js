@@ -9,20 +9,19 @@
 'use strict';
 // 不需要验证权限的接口,比如登录，验证码，获取用户信息这些只要是用户就需要有的接口
 const whiteUrl = [
-    '/admin/v1/captcha', // 登录验证码
-    '/admin/v1/auth/signIn', // 登录
-    '/admin/v1/auth/user', // 获取用户信息
-    '/admin/v1/auth/menu', // 获取用户菜单
-    '/admin/v1/dict', // 获取数据字典
-    '/admin/v1/auth/signOut', // 登出
-    // '/admin/v1/updatePassword', // 修改密码
-    '/admin/v1/baby', // 门户宝宝名称
-    // '/admin/v1/baby/:id', // 门户宝宝名称
+    { path: '/admin/v1/captcha', method: 'GET' /* 登录验证码*/ },
+    { path: '/admin/v1/auth/signIn', method: 'POST' /* 登录*/ },
+    { path: '/admin/v1/auth/signOut', method: 'GET' /* 登出*/ },
+    { path: '/admin/v1/auth/user', method: 'GET' /* 获取用户信息*/ },
+    { path: '/admin/v1/dict', method: 'GET' /* 获取用户数据字典*/ },
+    { path: '/admin/v1/auth/menu', method: 'GET' /* 获取用户菜单*/ },
+    { path: '/admin/v1/baby', method: 'GET' /* 门户：获取门户宝宝名称*/ },
+    { path: '/admin/v1/baby', method: 'POST' /* 门户：添加门户宝宝名称*/ },
+    { path: '/admin/v1/baby/:id', method: 'DELETE' /* 门户：删除门户宝宝名称*/ },
 ];
+
 // 匹配/:id 和 /8 等情况
 function RegExpUrl(url1, url2) {
-    console.log(url1, 'url1');
-    console.log(url2, 'url12');
     const reg = url1.replace(/:\w+\/?/, '(.+/?)');
     const regex = new RegExp(`^${reg}$`);
     return regex.test(url2);
@@ -32,22 +31,17 @@ module.exports = () => {
     // ...等待处理接口权限问题
     return async function authCheckApi(ctx, next) {
         const { request: { path, method }, locals, helper } = ctx;
-        console.log(path, 'path');
         if (
-            whiteUrl.includes(path) ||
-            (path.indexOf('/admin/v1/baby/') >= 0 && method === 'DELETE') // 暂时处理delete情况
+            whiteUrl.some(val => RegExpUrl(val.path, path) && val.method.toUpperCase() === method.toUpperCase())
         ) {
-            console.log(123);
             await next();
         } else {
-            console.log(333);
             const userInfo = locals.auth;
             const RedisKey = userInfo.id + userInfo.username;
             const redisInfo = await helper.getRedis(RedisKey);
             const apisAuth = redisInfo && redisInfo.apis ? redisInfo.apis : [];
-            const target = apisAuth.findIndex(val => val.method === method && RegExpUrl(val.path, path));
-            console.log(target, 'target');
-            if (target === -1) {
+            const target = apisAuth.some(val => val.method.toUpperCase() === method.toUpperCase() && RegExpUrl(val.path, path));
+            if (!target) {
                 helper.render(913);
                 return;
             }
