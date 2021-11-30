@@ -42,6 +42,9 @@ module.exports = app => {
 
   router.resources('/admin/v1/api', controller.api);
 
+  // 随记类型
+  router.resources('/admin/v1/notes/classification', controller.notes.classification);
+
   // 门户宝宝名称
   router.resources('/admin/v1/baby', controller.baby);
 

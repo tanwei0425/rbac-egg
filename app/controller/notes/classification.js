@@ -4,45 +4,45 @@
  * @Date: 2020-07-01 13:58:10
  * @LastEditors: tanwei
  * @LastEditTime: 2020-07-23 11:15:21
- * @FilePath: /egg/admin/app/controller/api.js
+ * @FilePath: /egg/admin/app/controller/notes/classification.js
  */
 'use strict';
 
 const Controller = require('egg').Controller;
-class ApiController extends Controller {
+class NotesClassificationController extends Controller {
     async show() {
         const { ctx: { service, helper, params } } = this;
-        const res = await service.api.show({ id: params.id });
+        const res = await service.notes.classification.show({ id: params.id });
         helper.render(200, res);
     }
     async index() {
         const { ctx: { service, helper, query } } = this;
-        const res = await service.api.list(query);
+        const res = await service.notes.classification.list(query);
         helper.render(200, res);
     }
     async create() {
         const { ctx: { service, helper, request } } = this;
         const body = request.body;
-        const showRes = await service.api.show({ name: body.name, menu_id: body.menu_id, is_delete: 0 });
+        const showRes = await service.notes.classification.show({ name: body.name, is_delete: 0 });
         if (showRes) {
-            helper.render(401, {}, '接口名称已存在');
+            helper.render(401, {}, '随记分类名称已存在');
             return;
         }
-        const res = await service.api.create(body);
+        const res = await service.notes.classification.create(body);
         helper.render(res ? 200 : 501, {});
     }
     async update() {
         const { ctx: { service, helper, params, request } } = this;
         const body = request.body;
-        const showRes = await service.api.show({ name: body.name, menu_id: body.menu_id, is_delete: 0 });
+        const showRes = await service.notes.classification.show({ name: body.name, is_delete: 0 });
         if (showRes && `${showRes.id}` !== `${params.id}`) {
-            helper.render(401, {}, '接口名称已存在');
+            helper.render(401, {}, '随记分类名称已存在');
             return;
         }
         const options = {
             where: { id: params.id },
         };
-        const res = await service.api.update(body, options);
+        const res = await service.notes.classification.update(body, options);
         helper.render(res ? 200 : 501, {});
     }
     async destroy() {
@@ -53,9 +53,9 @@ class ApiController extends Controller {
         const options = {
             where: { id: params.id },
         };
-        const res = await service.api.update(row, options);
+        const res = await service.notes.classification.update(row, options);
         helper.render(res ? 200 : 501, {});
     }
 }
 
-module.exports = ApiController;
+module.exports = NotesClassificationController;

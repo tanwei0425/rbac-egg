@@ -40,7 +40,7 @@ class UserController extends Controller {
     async create() {
         const { ctx: { service, helper, request } } = this;
         const body = request.body;
-        const showRes = await service.user.show({ username: body.username });
+        const showRes = await service.user.show({ username: body.username, is_delete: 0 });
         if (showRes) {
             helper.render(401, {}, '用户名称已存在');
             return;

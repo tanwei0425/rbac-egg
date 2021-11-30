@@ -33,7 +33,7 @@ class RoleController extends Controller {
     async create() {
         const { ctx: { service, helper, request } } = this;
         const body = request.body;
-        const showRes = await service.role.show({ name: body.name });
+        const showRes = await service.role.show({ name: body.name, is_delete: 0 });
         if (showRes) {
             helper.render(401, {}, '角色名称已存在');
             return;
@@ -44,7 +44,7 @@ class RoleController extends Controller {
     async update() {
         const { ctx: { service, helper, params, request } } = this;
         const body = request.body;
-        const showRes = await service.role.show({ name: body.name });
+        const showRes = await service.role.show({ name: body.name, is_delete: 0 });
         if (showRes && `${showRes.id}` !== `${params.id}`) {
             helper.render(401, {}, '角色名称已存在');
             return;

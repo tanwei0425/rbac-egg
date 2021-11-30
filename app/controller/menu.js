@@ -27,7 +27,7 @@ class MenuController extends Controller {
     async create() {
         const { ctx: { service, helper, request } } = this;
         const body = request.body;
-        const showRes = await service.menu.show({ name: body.name, pid: body.pid });
+        const showRes = await service.menu.show({ name: body.name, pid: body.pid, is_delete: 0 });
         if (showRes) {
             helper.render(401, {}, '菜单名称已存在');
             return;
@@ -38,7 +38,7 @@ class MenuController extends Controller {
     async update() {
         const { ctx: { service, helper, params, request } } = this;
         const body = request.body;
-        const showRes = await service.menu.show({ name: body.name, pid: body.pid });
+        const showRes = await service.menu.show({ name: body.name, pid: body.pid, is_delete: 0 });
         if (showRes && `${showRes.id}` !== `${params.id}`) {
             helper.render(401, {}, '菜单名称已存在');
             return;

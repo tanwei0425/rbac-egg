@@ -23,7 +23,7 @@ class ElementController extends Controller {
     async create() {
         const { ctx: { service, helper, request } } = this;
         const body = request.body;
-        const showRes = await service.element.show({ name: body.name, menu_id: body.menu_id });
+        const showRes = await service.element.show({ name: body.name, menu_id: body.menu_id, is_delete: 0 });
         if (showRes) {
             helper.render(401, {}, '元素名称已存在');
             return;
@@ -34,7 +34,7 @@ class ElementController extends Controller {
     async update() {
         const { ctx: { service, helper, params, request } } = this;
         const body = request.body;
-        const showRes = await service.element.show({ name: body.name, menu_id: body.menu_id });
+        const showRes = await service.element.show({ name: body.name, menu_id: body.menu_id, is_delete: 0 });
         if (showRes && `${showRes.id}` !== `${params.id}`) {
             helper.render(401, {}, '元素名称已存在');
             return;
