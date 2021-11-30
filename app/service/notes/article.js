@@ -9,7 +9,7 @@
 'use strict';
 const Service = require('egg').Service;
 const moment = require('moment');
-class NotesClassificationService extends Service {
+class NotesArticleService extends Service {
     // 获取单条用户信息
     async show(data) {
         const { app } = this;
@@ -71,4 +71,4 @@ class NotesClassificationService extends Service {
         return res.affectedRows === 1;
     }
 }
-module.exports = NotesClassificationService;
+module.exports = NotesArticleService;
