@@ -18,7 +18,7 @@ class NotesArticleService extends Service {
         return res;
     }
 
-    // 获取所有角色信息
+    // 获取所有随记文章信息
     async index(columns, where) {
         const { app } = this;
         const prefix = app.config.mysqlConfig.prefix;
@@ -28,12 +28,12 @@ class NotesArticleService extends Service {
         });
         return res;
     }
-    // 获取列表所有角色信息
+    // 获取列表所有随记文章信息
     async list(query) {
         const { app: { mysql, config } } = this;
         const { escape } = mysql;
         const prefix = config.mysqlConfig.prefix;
-        const { current, page_size, title, status, classification, author, create_user_name } = query;
+        const { current, page_size, title, status, classification, author, create_user_name, create_user_id } = query;
         const offset = current * page_size - page_size;
         let whereSql = '';
         const columns = 'id, title, classification, status, author, create_user_name, created_at, updated_at';
@@ -44,6 +44,8 @@ class NotesArticleService extends Service {
         classification && (whereSql += `and classification=${escape(classification)} `);
         author && (whereSql += `and author like ${escape(`%${author}%`)} `);
         create_user_name && (whereSql += `and create_user_name like ${escape(`%${create_user_name}%`)} `);
+        // 处理除了超管自己能看自己发布的文章
+        create_user_id && (whereSql += `and create_user_id=${escape(create_user_id)} `);
         whereSql && (countSql += whereSql);
         whereSql && (listSql += whereSql);
         listSql += `order by id desc limit ${escape(+offset)}, ${escape(+page_size)}`;

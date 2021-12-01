@@ -16,7 +16,17 @@ class NotesArticleController extends Controller {
         helper.render(200, res);
     }
     async index() {
-        const { ctx: { service, helper, query } } = this;
+        const { ctx: { service, helper, locals, query } } = this;
+        // 如果是超级管理员获取所有文章  如果是其他的只获取自己创建的
+        const userInfo = await service.user.show({ id: locals.auth.id });
+        if (!userInfo) {
+            helper.render(912);
+            return;
+        }
+        // 处理除了超管自己能看自己发布的文章
+        if (userInfo.is_super !== 1) {
+            query.create_user_id = locals.auth.id;
+        }
         const res = await service.notes.article.list(query);
         helper.render(200, res);
     }
