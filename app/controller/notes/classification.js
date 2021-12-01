@@ -56,6 +56,16 @@ class NotesClassificationController extends Controller {
         const res = await service.notes.classification.update(row, options);
         helper.render(res ? 200 : 501, {});
     }
+    async all() {
+        const { ctx: { service, helper } } = this;
+        const where = {
+            status: '1',
+            is_delete: 0,
+        };// WHERE 条件
+        const columns = ['id', 'name'];
+        const res = await service.notes.classification.index(where, columns);
+        helper.render(200, res);
+    }
 }
 
 module.exports = NotesClassificationController;

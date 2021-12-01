@@ -18,8 +18,8 @@ class NotesClassificationService extends Service {
         return res;
     }
 
-    // 获取所有角色信息
-    async index(columns, where) {
+    // 获取所有分类信息
+    async index(where, columns) {
         const { app } = this;
         const prefix = app.config.mysqlConfig.prefix;
         const res = await this.app.mysql.select(`${prefix}notes_classification`, {
@@ -28,7 +28,7 @@ class NotesClassificationService extends Service {
         });
         return res;
     }
-    // 获取列表所有角色信息
+    // 获取列表所有分类信息
     async list(query) {
         const { app: { mysql, config } } = this;
         const { escape } = mysql;
@@ -39,7 +39,7 @@ class NotesClassificationService extends Service {
         const columns = 'id, name, color, status,description, created_at';
         let listSql = `select ${columns} from ${prefix}notes_classification where is_delete=0 `;
         let countSql = `select count(*) as count from ${prefix}notes_classification where is_delete=0 `;
-        name && (whereSql += `and name=${escape(name)} `);
+        name && (whereSql += `and name like ${escape(`%${name}%`)} `);
         status && (whereSql += `and status=${escape(status)} `);
         whereSql && (countSql += whereSql);
         whereSql && (listSql += whereSql);
