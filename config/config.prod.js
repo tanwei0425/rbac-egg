@@ -26,6 +26,8 @@ module.exports = {
             password: 'aNc32WKaMNh7fFdY',
             // 数据库名
             database: 'tw-rbac',
+            // 编码（富文本中表情是4个字节，mysql 默认的utf8 彪马最多3个字节）
+            charset: 'utf8mb4',
         },
         // client: {
         //     // host
