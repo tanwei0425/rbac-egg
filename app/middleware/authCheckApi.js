@@ -13,7 +13,7 @@ const whiteUrl = [
     { path: '/admin/v1/auth/signIn', method: 'POST' /* 登录*/ },
     { path: '/admin/v1/auth/signOut', method: 'GET' /* 登出*/ },
     { path: '/admin/v1/auth/user', method: 'GET' /* 获取用户信息*/ },
-    { path: '/admin/v1/dict', method: 'GET' /* 获取用户数据字典*/ },
+    { path: '/admin/v1/allDictionary', method: 'GET' /* 获取用户数据字典*/ },
     { path: '/admin/v1/auth/menu', method: 'GET' /* 获取用户菜单*/ },
     { path: '/admin/v1/baby', method: 'GET' /* 门户：获取门户宝宝名称*/ },
     { path: '/admin/v1/baby', method: 'POST' /* 门户：添加门户宝宝名称*/ },

@@ -40,20 +40,6 @@ class CommonController extends Controller {
         ctx.helper.render(res ? 200 : 501);
     }
 
-    // 获取用户数据字典
-    async dict() {
-        const { ctx } = this;
-        const res = await ctx.service.dict.index();
-        const obj = {};
-        if (res) {
-            res.forEach(val => {
-                const code = val.code;
-                const value = eval(val.value);
-                obj[code] = value;
-            });
-        }
-        ctx.helper.render(200, obj);
-    }
     // 验证码
     async captcha() {
         const { ctx: { helper, query, app } } = this;

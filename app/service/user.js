@@ -81,6 +81,7 @@ class UserService extends Service {
 
         // 创建用户的时候，插入用户角色关联关系
         const res = await mysql.beginTransactionScope(async conn => {
+            console.log(rest, 'rest');
             const userRes = await conn.insert(`${prefix}user`, {
                 ...rest,
                 password,

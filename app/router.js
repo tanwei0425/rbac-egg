@@ -18,7 +18,7 @@ module.exports = app => {
   router.get('/admin/v1/auth/user', controller.auth.user);
   router.get('/admin/v1/auth/menu', controller.auth.menu);
 
-  router.get('/admin/v1/dict', controller.common.dict);
+
   router.get('/admin/v1/captcha', controller.common.captcha);
   router.put('/admin/v1/thmemUpdate', controller.common.thmemUpdate);
   router.put('/admin/v1/updatePassword', controller.common.updatePassword);
@@ -41,6 +41,9 @@ module.exports = app => {
   router.resources('/admin/v1/element', controller.element);
 
   router.resources('/admin/v1/api', controller.api);
+
+  router.get('/admin/v1/allDictionary', controller.dictionary.all);
+  router.resources('/admin/v1/dictionary', controller.dictionary);
 
   // 随记类型
   router.resources('/admin/v1/notes/classification', controller.notes.classification);
