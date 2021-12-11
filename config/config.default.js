@@ -57,7 +57,7 @@ module.exports = appInfo => {
 
   config.jwtVerify = {
     enable: true,
-    ignore: ['/admin/v1/auth/signIn', '/admin/v1/captcha', '/admin/v1/baby'],
+    ignore: ['/admin/v1/auth/signIn', '/admin/v1/captcha', '/web/v1/baby'],
   };
   config.redisConfig = {
     expireTime: 7200, // jwt、redis过期时间(s)

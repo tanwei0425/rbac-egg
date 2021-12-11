@@ -53,7 +53,7 @@ module.exports = app => {
   router.resources('/admin/v1/notes/article', controller.notes.article);
 
   // 门户宝宝名称
-  router.resources('/admin/v1/baby', controller.baby);
+  router.resources('/web/v1/baby', controller.baby);
 
   // socket.io 路由(测试)
   io.of('/').route('demo', io.controller.demo.index);

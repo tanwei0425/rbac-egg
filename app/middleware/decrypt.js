@@ -1,13 +1,18 @@
 'use strict';
 
+
 module.exports = () => {
+    // 门户网站不用校验
+    const reg = /^\/web\/.*/;
+
     return async function decrypt(ctx, next) {
-        const { helper, query, request } = ctx;
+        const { request: { path }, helper, query, request } = ctx;
+
         if (JSON.stringify(ctx.request.body) !== '{}') {
             console.log(request.body, 'data, rsa');
             let resData = request.body;
             // 处理门户不需要加密的情况
-            if (resData.rsa) {
+            if (!reg.test(path)) {
                 let { data, rsa } = request.body;
                 // 解密
                 data = helper.decrypt(data);

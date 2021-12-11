@@ -27,12 +27,18 @@ function RegExpUrl(url1, url2) {
     return regex.test(url2);
 }
 
+// 门户网站不用校验
+const reg = /^\/web\/.*/;
+
+
 module.exports = () => {
     // ...等待处理接口权限问题
     return async function authCheckApi(ctx, next) {
         const { request: { path, method }, locals, helper } = ctx;
+
         if (
-            whiteUrl.some(val => RegExpUrl(val.path, path) && val.method.toUpperCase() === method.toUpperCase())
+            whiteUrl.some(val => RegExpUrl(val.path, path) && val.method.toUpperCase() === method.toUpperCase()) ||
+            reg.test(path)
         ) {
             await next();
         } else {
