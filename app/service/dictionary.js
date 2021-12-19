@@ -19,7 +19,7 @@ class DictService extends Service {
         return res;
     }
 
-    // 获取所有随记文章信息
+    // 获取所有字典信息
     async index(columns, where) {
         const { app } = this;
         const prefix = app.config.mysqlConfig.prefix;
@@ -29,7 +29,7 @@ class DictService extends Service {
         });
         return res;
     }
-    // 获取列表所有随记文章信息
+    // 获取列表所有字典信息
     async list(query) {
         const { app: { mysql, config } } = this;
         const { escape } = mysql;

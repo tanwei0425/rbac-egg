@@ -15,9 +15,6 @@ const whiteUrl = [
     { path: '/admin/v1/auth/user', method: 'GET' /* 获取用户信息*/ },
     { path: '/admin/v1/allDictionary', method: 'GET' /* 获取用户数据字典*/ },
     { path: '/admin/v1/auth/menu', method: 'GET' /* 获取用户菜单*/ },
-    { path: '/admin/v1/baby', method: 'GET' /* 门户：获取门户宝宝名称*/ },
-    { path: '/admin/v1/baby', method: 'POST' /* 门户：添加门户宝宝名称*/ },
-    { path: '/admin/v1/baby/:id', method: 'DELETE' /* 门户：删除门户宝宝名称*/ },
 ];
 
 // 匹配/:id 和 /8 等情况
@@ -29,7 +26,6 @@ function RegExpUrl(url1, url2) {
 
 // 门户网站不用校验
 const reg = /^\/web\/.*/;
-
 
 module.exports = () => {
     // ...等待处理接口权限问题
