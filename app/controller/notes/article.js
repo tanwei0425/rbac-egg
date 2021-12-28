@@ -66,6 +66,12 @@ class NotesArticleController extends Controller {
         const res = await service.notes.article.update(row, options);
         helper.render(res ? 200 : 501, {});
     }
+
+    async noAuthArticleList() {
+        const { ctx: { service, helper, query } } = this;
+        const res = await service.notes.article.list(query);
+        helper.render(200, res);
+    }
 }
 
 module.exports = NotesArticleController;

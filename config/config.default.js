@@ -62,6 +62,7 @@ module.exports = appInfo => {
       '/admin/v1/captcha',
       '/web/v1/baby',
       '/web/v1/allNotesClassification',
+      '/web/v1/notes/article',
     ],
   };
   config.redisConfig = {

@@ -54,8 +54,8 @@ module.exports = app => {
 
   // 门户开始（不验证权限）
   router.resources('/web/v1/baby', controller.baby);
-  // router.get('/web/v1/notes/article', controller.notes.article);
   router.get('/web/v1/allNotesClassification', controller.notes.classification.all);
+  router.get('/web/v1/notes/article', controller.notes.article.noAuthArticleList);
   // 门户结束
 
   // socket.io 路由(测试)

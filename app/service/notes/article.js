@@ -36,12 +36,15 @@ class NotesArticleService extends Service {
         const { current, page_size, title, status, classification, author, create_user_name, create_user_id } = query;
         const offset = current * page_size - page_size;
         let whereSql = '';
-        const columns = 'id, title, classification, status, author, create_user_name, created_at, updated_at';
+        const columns = 'id, title, classification, status, description, author, create_user_name, created_at, updated_at';
         let listSql = `select ${columns} from ${prefix}notes_article where is_delete=0 `;
         let countSql = `select count(*) as count from ${prefix}notes_article where is_delete=0 `;
         title && (whereSql += `and title like ${escape(`%${title}%`)} `);
         status && (whereSql += `and status=${escape(status)} `);
-        classification && (whereSql += `and classification=${escape(classification)} `);
+        if (classification) {
+            classification.split().map(val => escape(val)).join();
+            whereSql += `and classification in (${classification}) `;
+        }
         author && (whereSql += `and author like ${escape(`%${author}%`)} `);
         create_user_name && (whereSql += `and create_user_name like ${escape(`%${create_user_name}%`)} `);
         // 处理除了超管自己能看自己发布的文章
