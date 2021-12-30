@@ -56,6 +56,7 @@ module.exports = app => {
   router.resources('/web/v1/baby', controller.baby);
   router.get('/web/v1/allNotesClassification', controller.notes.classification.all);
   router.get('/web/v1/notes/article', controller.notes.article.noAuthArticleList);
+  router.get('/web/v1/notes/article/:id', controller.notes.article.show);
   // 门户结束
 
   // socket.io 路由(测试)
