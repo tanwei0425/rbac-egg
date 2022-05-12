@@ -15,7 +15,7 @@ class CommonController extends Controller {
     // 修改密码
     async updatePassword() {
         const { ctx } = this;
-        const { password, newPassword } = ctx.request.body;
+        const { password, new_password } = ctx.request.body;
         const userRes = await ctx.service.user.show({ id: ctx.locals.auth.id });
         const oldPwdCrypto = ctx.helper.addSaltPassword(password);
         if (userRes && userRes.password !== oldPwdCrypto) {
@@ -23,7 +23,7 @@ class CommonController extends Controller {
             ctx.helper.render(907);
             return;
         }
-        const newPwdCrypto = ctx.helper.addSaltPassword(newPassword);
+        const newPwdCrypto = ctx.helper.addSaltPassword(new_password);
         if (oldPwdCrypto === newPwdCrypto) {
             // 旧密码和新密码一致
             ctx.helper.render(909);
@@ -57,7 +57,7 @@ class CommonController extends Controller {
 
         const uuid = uuidv4();
         const timestamp = new Date().getTime();
-        const twCaptcha = await helper.getRedis('tw_captcha');
+        const twCaptcha = await helper.getRedis('captcha:status');
         twCaptcha[prevUuid] && delete twCaptcha[prevUuid];
         twCaptcha[uuid] = {
             code: captcha.text,
@@ -69,7 +69,7 @@ class CommonController extends Controller {
                 newCaptcha[key] = twCaptcha[key];
             }
         }
-        await helper.setRedis('tw_captcha', newCaptcha);
+        await helper.setRedis('captcha:status', newCaptcha);
         const data = {
             captcha: captcha.data,
             uuid,

@@ -7,7 +7,7 @@
  * @FilePath: /egg/admin/app/middleware/authCheckApi.js
  */
 'use strict';
-// 不需要验证权限的接口,比如登录，验证码，获取用户信息这些只要是用户就需要有的接口
+// 接口权限验证，不需要验证权限的接口,比如登录，验证码，获取用户信息这些只要是用户就需要有的接口
 const whiteUrl = [
     { path: '/admin/v1/captcha', method: 'GET' /* 登录验证码*/ },
     { path: '/admin/v1/auth/signIn', method: 'POST' /* 登录*/ },
@@ -39,7 +39,7 @@ module.exports = () => {
             await next();
         } else {
             const userInfo = locals.auth;
-            const RedisKey = userInfo.id + userInfo.username;
+            const RedisKey = `user:${userInfo.id}`;
             const redisInfo = await helper.getRedis(RedisKey);
             const apisAuth = redisInfo && redisInfo.apis ? redisInfo.apis : [];
             const target = apisAuth.some(val => val.method.toUpperCase() === method.toUpperCase() && RegExpUrl(val.path, path));

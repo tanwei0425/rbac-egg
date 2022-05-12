@@ -36,7 +36,7 @@ class NotesArticleService extends Service {
         const { current, page_size, title, status, classification, author, create_user_name, create_user_id } = query;
         const offset = current * page_size - page_size;
         let whereSql = '';
-        const columns = 'id, title, classification, status, description, author, create_user_name, created_at, updated_at';
+        const columns = 'id, title, classification, status, description, author, read_number, create_user_name, created_at, updated_at';
         let listSql = `select ${columns} from ${prefix}notes_article where is_delete=0 `;
         let countSql = `select count(*) as count from ${prefix}notes_article where is_delete=0 `;
         title && (whereSql += `and title like ${escape(`%${title}%`)} `);
@@ -79,6 +79,19 @@ class NotesArticleService extends Service {
         row.updated_at = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
         const res = await this.app.mysql.update(`${prefix}notes_article`, row, options);
         return res.affectedRows === 1;
+    }
+    // 文章浏览量
+    async updateReadNumberRes(row, options, insertData) {
+        const { app: { mysql, config }, ctx } = this;
+        const prefix = config.mysqlConfig.prefix;
+        // 更新文章浏览量并记录在记录表中
+        const res = await mysql.beginTransactionScope(async conn => {
+            await conn.update(`${prefix}notes_article`, row, options);
+            insertData.created_at = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+            await conn.insert(`${prefix}notes_article_record`, insertData);
+            return true;
+        }, ctx);
+        return res;
     }
 }
 module.exports = NotesArticleService;

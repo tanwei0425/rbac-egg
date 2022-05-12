@@ -25,7 +25,7 @@ module.exports = () => {
                 return;
             }
             // 获取redis用户信息
-            const RedisKey = userInfo.id + userInfo.username;
+            const RedisKey = `user:${userInfo.id}`;
             const redisInfo = await helper.getRedis(RedisKey);
             // 账号在其他地方登录
             if (redisInfo.token !== token) {

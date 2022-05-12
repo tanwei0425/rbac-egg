@@ -43,13 +43,20 @@ module.exports = {
         const pwdCrypto = md5.update(pwd + config.pwdCryptoKey).digest('hex');
         return pwdCrypto;
     },
+    // redisKey加密
+    redisKeySalt(key) {
+        const { config } = this.app;
+        const md5 = crypto.createHash('md5');
+        const redisKeyCrypto = md5.update(key + config.redisConfig.redisKeySecret).digest('hex');
+        return redisKeyCrypto;
+    },
     // 设置登录token
     async loginToken(data, expires) {
         const { config } = this.app;
         const token = jwt.sign(data, config.jwt.secret, {
             expiresIn: expires,
         });
-        const RedisKey = data.id + data.username;
+        const RedisKey = `user:${data.id}`;
         await this.setRedis(RedisKey, {
             token,
         }, expires);
@@ -130,6 +137,8 @@ module.exports = {
     // 获取
     async getRedis(key) {
         const { redis } = this.app;
+        // 统一给redis key 加盐
+        // const keySalt = this.redisKeySalt(key);
         let data = await redis.get(key);
         if (!data) return {};
         data = JSON.parse(data);
@@ -138,6 +147,8 @@ module.exports = {
     // 设置
     async setRedis(key, value, seconds) {
         const { redis } = this.app;
+        // 统一给redis key 加盐
+        // const keySalt = this.redisKeySalt(key);
         value = JSON.stringify(value);
         if (!seconds) {
             await redis.set(key, value);
@@ -149,7 +160,9 @@ module.exports = {
     // 更新过期时间
     async expireRedis(key, time) {
         const { redis } = this.app;
-        let data = await redis.expire(key, time);
+        // 统一给redis key 加盐
+        const keySalt = this.redisKeySalt(key);
+        let data = await redis.expire(keySalt, time);
         if (!data) return;
         data = JSON.parse(data);
         return data;
@@ -157,6 +170,8 @@ module.exports = {
     // 删除单个
     async delRedis(key) {
         const { redis } = this.app;
+        // 统一给redis key 加盐
+        // const keySalt = this.redisKeySalt(key);
         const result = await redis.del(key);
         return result;
     },
@@ -169,6 +184,8 @@ module.exports = {
     // 查看key的过期时间
     async ttlRedis(key) {
         const { redis } = this.app;
+        // 统一给redis key 加盐
+        // const keySalt = this.redisKeySalt(key);
         return redis.ttl(key) || 0;
     },
     // 对比加密数据
@@ -176,10 +193,7 @@ module.exports = {
         const sha = privateKey.decrypt(rsa, 'utf8');
         const hash = CryptoJS.SHA256(data);
         const sha2 = hash.toString(CryptoJS.enc.Hex);
-        if (sha === sha2) {
-            return true;
-        }
-        return false;
+        return sha === sha2;
     },
     // 数据加密
     encrypt(content) {

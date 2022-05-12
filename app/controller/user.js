@@ -56,13 +56,13 @@ class UserController extends Controller {
         const { ctx: { service, helper, params, request } } = this;
         const body = request.body;
         // 不能修改用户名
-        const { username, ...rest } = body;
+        body.username && delete body.username;
         const options = {
             where: { id: params.id },
         };
-        const res = await service.user.update(rest, options);
-        if (res && rest.status === '0') {
-            await service.common.index.userStatusUpdateSyncRedis(params.id + username);
+        const res = await service.user.update(body, options);
+        if (res && body.status === '0') {
+            await service.common.index.userStatusUpdateSyncRedis(`user:${params.id}`);
         }
         helper.render(res ? 200 : 501, {});
     }
@@ -87,7 +87,7 @@ class UserController extends Controller {
         }
         const res = await service.user.update(row, options);
         if (res) {
-            await service.common.index.userStatusUpdateSyncRedis(params.id + userInfo.username);
+            await service.common.index.userStatusUpdateSyncRedis(`user:${params.id}`);
         }
         helper.render(res ? 200 : 501, {});
     }

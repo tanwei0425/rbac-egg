@@ -53,6 +53,13 @@ class NotesClassificationController extends Controller {
         const options = {
             where: { id: params.id },
         };
+        // 获取使用当前分类的文章
+        const showRes = await service.notes.article.index(['title'], { classification: params.id, is_delete: 0 });
+        // 分类下如果有文章，不能删除
+        if (showRes.length > 0) {
+            helper.render(915, {}, `当前分类下存在${showRes.length}篇文章，请先清空分类下文章`);
+            return;
+        }
         const res = await service.notes.classification.update(row, options);
         helper.render(res ? 200 : 501, {});
     }

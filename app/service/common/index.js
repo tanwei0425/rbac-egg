@@ -16,7 +16,8 @@ class CommonService extends Service {
         const { ctx: { helper, locals } } = this;
         // 清除redis
         const userInfo = locals.auth;
-        const result = await helper.delRedis(userInfo.id + userInfo.username);
+        const RedisKey = `user:${userInfo.id}`;
+        const result = await helper.delRedis(RedisKey);
         return result;
     }
 
@@ -97,18 +98,18 @@ class CommonService extends Service {
         dataKey,
         data,
     }) {
-        const { ctx: { ip, host, protocol, request, locals }, app } = this;
+        const { ctx: { protocol, request, host, locals }, app } = this;
         // 获取客户端信息
         const ua = parser(request.headers['user-agent']);
         const userInfo = locals.auth || {};
-        const res = ip !== '127.0.0.1' ? await this.ipGetAddress(ip) : {};
+        const res = request.ip !== '127.0.0.1' ? await this.ipGetAddress(request.ip) : {};
         const loggerData = {
             username: userInfo.username,
             os: ua.os,
             browser: ua.browser,
             path: request.path,
             method: request.method,
-            ip, // 如果开启反响代理，请在config.default.js配置中开启config.proxy = true,否则拿不到真实ip
+            ip: request.ip, // 如果开启反响代理，请在config.default.js配置中开启config.proxy = true,否则拿不到真实ip
             host, // 获取用户请求的域名
             protocol, // 获取用户请求的协议
             address: res.address || '',

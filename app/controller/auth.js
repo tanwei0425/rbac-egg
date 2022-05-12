@@ -15,14 +15,14 @@ class AuthController extends Controller {
     const { app, service, helper, request } = ctx;
     // 组装参数
     const { uuid, code, ...rest } = request.body;
-    const twCaptcha = await helper.getRedis('tw_captcha');
+    const twCaptcha = await helper.getRedis('captcha:status');
     if (!twCaptcha[uuid]) {
       helper.render(905);
       return;
     }
     const { code: redisUuid } = twCaptcha[uuid];
     delete twCaptcha[uuid];
-    await helper.setRedis('tw_captcha', twCaptcha);
+    await helper.setRedis('captcha:status', twCaptcha);
     if (code !== redisUuid) {
       helper.render(905);
       return;
@@ -36,7 +36,10 @@ class AuthController extends Controller {
       helper.render(914);
       return;
     }
+    console.log(rest.password, 'rest.password');
     const pwdCrypto = helper.addSaltPassword(rest.password);
+    console.log(pwdCrypto, 'pwdCrypto');
+    console.log(userInfo.password, 'userInfo.password');
     if (userInfo.password !== pwdCrypto) {
       helper.render(906);
       return;
@@ -79,6 +82,7 @@ class AuthController extends Controller {
       name: userInfo.name,
       phone: userInfo.phone,
       org_id: userInfo.org_id,
+      is_admin: userInfo.is_super,
     };
     // 查询机构
     if (userInfo.org_id) {
@@ -142,7 +146,7 @@ class AuthController extends Controller {
       apiWhere.permission_id = activePermission;
     }
     const apisRes = await ctx.service.api.index(apiColumns, apiWhere);
-    const RedisKey = userInfo.id + userInfo.username;
+    const RedisKey = `user:${userInfo.id}`;
     const redisInfo = await ctx.helper.getRedis(RedisKey);
     redisInfo.apis = apisRes;
     const ttlKeyTime = await ctx.helper.ttlRedis(RedisKey);

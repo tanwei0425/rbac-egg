@@ -57,6 +57,7 @@ module.exports = appInfo => {
 
   config.jwtVerify = {
     enable: true,
+    // jwt放行接口
     ignore: [
       '/admin/v1/auth/signIn',
       '/admin/v1/captcha',
@@ -64,11 +65,13 @@ module.exports = appInfo => {
       '/web/v1/allNotesClassification',
       '/web/v1/notes/article',
       '/web/v1/notes/article/:id',
+      '/web/v1/notes/articleUpdateReadNumbel',
     ],
   };
   config.redisConfig = {
     expireTime: 7200, // jwt、redis过期时间(s)
-    updateExpireTime: 1800, // jwt、redis如果用户一直在操作，距离给redis的key续费的时间(s) //30分钟
+    updateExpireTime: 1800, // jwt、redis如果用户一直在操作，距离给redis的key续费的时间(s) //30分钟,
+    redisKeySecret: 'tw_Redis@toKen-key%666', // redis中key加密处理
   };
 
   // 验证码配置
