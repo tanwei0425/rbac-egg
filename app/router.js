@@ -52,6 +52,9 @@ module.exports = app => {
   // 随记文章
   router.resources('/admin/v1/notes/article', controller.notes.article);
 
+  // 随记文章访问记录
+  router.get('/admin/v1/notes/articleRecord', controller.notes.articleRecord.index);
+
   // 门户开始（不验证权限）
   router.resources('/web/v1/baby', controller.baby);
   router.get('/web/v1/allNotesClassification', controller.notes.classification.all);
