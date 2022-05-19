@@ -16,6 +16,7 @@
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.11.0",
     "egg-socket.io": "^4.1.6",
+    "egg-validate": "^2.0.2",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
     "node-rsa": "^1.1.1",

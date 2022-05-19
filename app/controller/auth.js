@@ -36,10 +36,7 @@ class AuthController extends Controller {
       helper.render(914);
       return;
     }
-    console.log(rest.password, 'rest.password');
     const pwdCrypto = helper.addSaltPassword(rest.password);
-    console.log(pwdCrypto, 'pwdCrypto');
-    console.log(userInfo.password, 'userInfo.password');
     if (userInfo.password !== pwdCrypto) {
       helper.render(906);
       return;

@@ -30,4 +30,8 @@ module.exports = {
     enable: true,
     package: 'egg-redis',
   },
+  validate: {
+    enable: true,
+    package: 'egg-validate',
+  },
 };

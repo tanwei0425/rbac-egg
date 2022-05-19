@@ -11,8 +11,28 @@
 const Controller = require('egg').Controller;
 const parser = require('ua-parser-js');
 class NotesArticleController extends Controller {
+    constructor(props) {
+        super(props);
+        // 添加编辑字段校验
+        this.validateData = {
+            title: { type: 'string' },
+            classification: { type: 'string' },
+            status: { type: 'string' },
+            author: { type: 'string' },
+            content: { type: 'string' },
+            read_number: { type: 'number' },
+            description: { type: 'string', required: false },
+        };
+    }
     async show() {
-        const { ctx: { service, helper, params } } = this;
+        const { ctx: { service, helper, params }, app: { validator } } = this;
+        const errors = validator.validate({
+            id: { type: 'string' },
+        }, params);
+        if (errors) {
+            helper.render(422, errors);
+            return;
+        }
         const res = await service.notes.article.show({ id: params.id });
         helper.render(200, res);
     }
@@ -31,13 +51,29 @@ class NotesArticleController extends Controller {
         helper.render(200, res);
     }
     async create() {
-        const { ctx: { service, helper, request } } = this;
+        const { ctx: { service, helper, request }, app: { validator } } = this;
+        const errors = validator.validate({
+            ...this.validateData,
+        }, request.body);
+        if (errors) {
+            helper.render(422, errors);
+            return;
+        }
         const res = await service.notes.article.create(request.body);
         helper.render(res ? 200 : 501, {});
     }
     async update() {
-        const { ctx: { service, helper, params, locals, request } } = this;
+        const { ctx: { service, helper, params, locals, request }, app: { validator } } = this;
         const body = request.body;
+        console.log(this.validateData, 'validateData');
+        const errors = validator.validate({
+            id: { type: 'string' },
+            ...this.validateData,
+        }, { ...body, ...params });
+        if (errors) {
+            helper.render(422, errors);
+            return;
+        }
         // 如果是超级管理员修改所有文章  如果是其他用户只能修改自己创建的文章
         const showRes = await service.notes.article.show({ id: params.id, is_delete: 0 });
         const userInfo = await service.user.show({ id: locals.auth.id });
@@ -52,7 +88,14 @@ class NotesArticleController extends Controller {
         helper.render(res ? 200 : 501, {});
     }
     async destroy() {
-        const { ctx: { service, helper, locals, params } } = this;
+        const { ctx: { service, helper, locals, params }, app: { validator } } = this;
+        const errors = validator.validate({
+            id: { type: 'string' },
+        }, params);
+        if (errors) {
+            helper.render(422, errors);
+            return;
+        }
         const row = {
             is_delete: 1,
         };
@@ -82,7 +125,7 @@ class NotesArticleController extends Controller {
     async noAuthArticleShow() {
         const { ctx: { service, request, helper, params } } = this;
         const showRes = await service.notes.article.show({ id: params.id });
-        // 是同一篇文章并且是同一个ip，1个小时内算一次浏览量
+        // 是同一篇文章并且是同一个ip，1个小时内算一次浏览量（在同一个网络下公网可能ip相同，不一定准确）
         const articleKey = `article:${showRes.id}-${request.ip}`;
         // 查询文档是否已经阅读过（同一篇文章并且是同一个ip，1个小时内为阅读过）
         const articleKeyRes = await helper.getRedis(articleKey);

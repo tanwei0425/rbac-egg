@@ -70,11 +70,23 @@ module.exports = {
         this.jsonToHump(data);
         ctx.body = {
             code,
-            data,
+            data: code === 422 ? this.validatorFormat(data) : data,
             message: message || codeStatus[code],
         };
         ctx.status = 200;
         return;
+    },
+    // 参数验证返回统一处理
+    validatorFormat(arr) {
+        const res = arr.map(val => {
+            val.code === 'missing_field' && (val.message = '不能为空!');
+            val.code === 'invalid' && (val.message = '无效参数或参数格式错误!');
+            return {
+                field: val.field,
+                message: val.message,
+            };
+        });
+        return res;
     },
     // json对象的key值_转为小驼峰
     jsonToHump(obj) {
